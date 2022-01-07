@@ -152,7 +152,6 @@ ALTER TABLE "parent" ADD CONSTRAINT "FK_parent_0" FOREIGN KEY ("person_id") REFE
 ALTER TABLE "student" ADD CONSTRAINT "FK_student_0" FOREIGN KEY ("person_id") REFERENCES "person" ("person_id");
 
 ALTER TABLE "student_in_lesson" ADD CONSTRAINT "FK_student_in_lesson_0" FOREIGN KEY ("student_id" ) REFERENCES "student" ("student_id" );
-ALTER TABLE "student_in_lesson" ADD CONSTRAINT "FK_student_in_lesson_0" FOREIGN KEY ("lesson_id" ) REFERENCES "lesson" ("lesson_id" );
 
 
 ALTER TABLE "payment" ADD CONSTRAINT "FK_payment_0" FOREIGN KEY ("student_id" ) REFERENCES "student" ("student_id" );

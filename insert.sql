@@ -3,7 +3,7 @@
 --Created by Murtadha Alobaidi mhaao@kth.se & Abdullah Trabulsiah abdtra@kth.se
 --This script we inserts data
 
-
+                                                                                                                      
 insert into instrument (type, brand, renting_fee) values ('accent',    'Gibson', '€9,94');                             
 insert into instrument (type, brand, renting_fee) values ('accordion', 'Harman International Industries', '€61,44');   
 insert into instrument (type, brand, renting_fee) values ('guitar',    'Shure', '€32,96');                             
@@ -11,11 +11,11 @@ insert into instrument (type, brand, renting_fee) values ('adagio',    'Yamaha',
 insert into instrument (type, brand, renting_fee) values ('aeolian harp',  'Fender', '€38,37');                        
 
 
-insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Walther',   'Walther',   '3912628688', 'Debra',    '33456',      'Pskov');    
-insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Gerry',     'Gerry',     '5127224364', 'Scoville', '40321',    'Changfu');    
-insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Dre',       'Dre',       '3114026532', 'Walton',    '02221',     'Säter');    
-insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Kerr',      'Kerr',      '7724282684', 'Warbler',    '83547',  'Longfeng');   
-insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Taddeusz',  'Taddeusz',  '2262059845', 'Daystar',    '32347',     'Parys');   
+insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Walther',   'Walther',   '3912628688', 'Debra',    '33456',      'Pskov');      
+insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Gerry',     'Gerry',     '5127224364', 'Scoville', '40321',    'Changfu');      
+insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Dre',       'Dre',       '3114026532', 'Walton',    '02221',     'Säter');      
+insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Kerr',      'Kerr',      '7724282684', 'Warbler',    '83547',  'Longfeng');     
+insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Taddeusz',  'Taddeusz',  '2262059845', 'Daystar',    '32347',     'Parys');     
 insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Ezechiel',  'Ezechiel',  '5562153165', 'Stang',      '00689', 'Grigiškės');     
 insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Fransisco', 'Fransisco', '2374513718', 'Northland',   '32054','Jampang Kulon'); 
 insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Gaultiero', 'Gaultiero', '5072114813', 'Logan',      '30099',       'Mandera'); 
@@ -33,6 +33,7 @@ insert into phone (phone,person_id) values ('076 723 9819', '56');
 insert into phone (phone,person_id) values ('076 882 8560', '57');
 insert into phone (phone,person_id) values ('076 602 5463', '58');
 insert into phone (phone,person_id) values ('076 688 6727', '59');
+
 
 
 insert into email (email,person_id) values ('pkenn0@histats.com'        ,'50' );
@@ -55,7 +56,7 @@ insert into lesson (place, price, employment_id, time,type_of_lesson) values ('H
 insert into lesson (place, price, employment_id, time,type_of_lesson) values ('School','€57,30', 251, '2021-07-18 17:28:30','Group'); 
 insert into lesson (place, price, employment_id, time,type_of_lesson) values ('School','€51,89', 251, '2021-09-24 11:25:50','Ensemble'); 
 insert into lesson (place, price, employment_id, time,type_of_lesson) values ('Home',  '€42,56', 250, '2021-08-16 14:44:13', 'Individual'); 
-insert into lesson (place, price, employment_id, time,type_of_lesson) values ('School','€57,30', 251, '2021-07-24 17:46:27', 'Group' ); -
+insert into lesson (place, price, employment_id, time,type_of_lesson) values ('School','€57,30', 251, '2021-07-24 17:46:27', 'Group' ); 
 insert into lesson (place, price, employment_id, time,type_of_lesson) values ('School','€51,89', 251, '2021-05-20 23:12:00', 'Individual'); 
 insert into lesson (place, price, employment_id, time,type_of_lesson) values ('Home',  '€42,56', 250, '2021-01-18 11:17:56', 'Individual'); 
 insert into lesson (place, price, employment_id, time,type_of_lesson) values ('School','€57,30', 251, '2021-01-10 09:39:15', 'Individual'); 
@@ -66,12 +67,13 @@ insert into parent (person_id) values (55);
 insert into parent (person_id) values (56); 
 insert into parent (person_id) values (57); 
 
-                                                     
-insert into student (member_id , person_id) values  (150 , 50);   
-insert into student ( member_id , person_id) values (150 , 51);   
-insert into student ( member_id , person_id) values (151 , 52);   
-insert into student ( member_id , person_id) values (151 , 53);   
-insert into student ( member_id , person_id) values (152 , 54);   
+
+insert into student (member_id , person_id) values  (150 , 50);    
+insert into student ( member_id , person_id) values (150 , 51);    
+insert into student ( member_id , person_id) values (151 , 52);    
+insert into student ( member_id , person_id) values (151 , 53);    
+insert into student ( member_id , person_id) values (152 , 54);    
+
 
 
 insert into student_in_lesson (student_id, lesson_id) values (200, 100);
