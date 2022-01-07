@@ -1,4 +1,4 @@
-#  [Soundgood Music School](https://pages.github.com/).
+#  [Soundgood Music School](https://github.com/mhaao/Soundgood-Music-School)
 
 # Description
 This project "Soundgood Music School" on KTH-Datalagring(IV1351).
@@ -10,9 +10,12 @@ by developing a database which handles all the school's data and also an applica
 * [SQL](https://pages.github.com/).
 * [JAVA](https://pages.github.com/).
 
-# TOOL
-* Visual Studio [Visual Studio](https://code.visualstudio.com)
-* SQL Shell(psql) 'terminal' [SQL Shell](https://www.postgresql.org/download/)
-* PostgresSQL
-* pgAdmin 4
+# TOOLS
+* [Visual Studio](https://code.visualstudio.com)
+* [SQL Shell(psql) 'terminal'](https://www.postgresql.org/download/)
+* [PostgresSQL](https://www.postgresql.org/download/)
+* [pgAdmin 4](https://www.pgadmin.org/download/)
  
+
+
+
