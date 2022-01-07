@@ -6,5 +6,12 @@ The purpose is to facilitate information handling and business transactions for 
 by developing a database which handles all the school's data and also an application that can handle some of the transactions. 
 
 # Built With languages
-SQL
-Java
+* SQL
+* Java
+
+# TOOL
+* Visual Studio
+* SQL Shell(psql) 'terminal'
+* PostgresSQL
+* pgAdmin 4
+ 
