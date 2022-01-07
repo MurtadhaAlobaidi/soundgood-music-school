@@ -1,1 +1,1 @@
-# Soundgood Music School Database
+# Soundgood Music School
