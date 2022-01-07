@@ -7,8 +7,8 @@ by developing a database which handles all the school's data and also an applica
 
  
 # Built With languages
-* [SQL](https://pages.github.com/).
-* [JAVA](https://pages.github.com/).
+* [SQL](https://pages.github.com/)
+* [JAVA](https://pages.github.com/)
 
 # TOOLS
 * [Visual Studio](https://code.visualstudio.com)
