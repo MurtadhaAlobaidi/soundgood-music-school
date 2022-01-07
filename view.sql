@@ -1,7 +1,3 @@
---IV1351 KTH
---Project 'Soundgood Music School', Task-3 
---Created by Murtadha Alobaidi mhaao@kth.se & Abdullah Trabulsiah abdtra@kth.se
-
 CREATE VIEW lessones_statistics AS
     SELECT 
         EXTRACT(MONTH FROM lesson.time) AS month,
@@ -45,3 +41,26 @@ CREATE VIEW instructor_statistics AS
     INNER JOIN person ON instructor.person_id=person.person_id
     GROUP BY (Instructor_Name,MONTH) 
     ORDER BY MONTH;
+
+
+CREATE VIEW ensemble_statistics AS
+    SELECT
+         genre
+        ,ensemble.max_num_of_students
+        ,ensemble.min_num_of_students
+        ,ensemble.type_of_lesson
+        ,EXTRACT(YEAR FROM NOW()) AS year
+        ,(EXTRACT(WEEK FROM NOW()) + 1) AS week_number
+        ,EXTRACT(DAY FROM NOW()) AS DAY
+        ,CASE 
+            WHEN COUNT(student_in_lesson.student_id) = (SELECT ensemble.max_num_of_students FROM ensemble) THEN 'Full booked'
+            WHEN COUNT(student_in_lesson.student_id) = (SELECT ensemble.min_num_of_students FROM ensemble)  THEN 'Has more seats left'
+            ELSE 'Lesson not confirmed yet'
+        END status
+    from public.ensemble 
+    INNER JOIN lesson ON  ensemble.lesson_id=lesson.lesson_id 
+    INNER JOIN student_in_lesson ON student_in_lesson.lesson_id = lesson.lesson_id
+    -- WHERE ((EXTRACT(WEEK FROM NOW()) + 1) = (EXTRACT(WEEK FROM lesson.time)) AND (EXTRACT(YEAR FROM NOW())) = (EXTRACT(YEAR FROM lesson.time)))
+    GROUP BY(YEAR,genre,ensemble.max_num_of_students,ensemble.min_num_of_students,ensemble.type_of_lesson,lesson.time)
+    -- GROUP BY(id, EXTRACT(YEAR FROM ensemble.lesson_id), week_number,genre, day_of_week,ensemble_size )
+    ORDER BY(EXTRACT(DAY FROM lesson.time), genre);

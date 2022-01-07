@@ -92,8 +92,8 @@ ALTER TABLE "student_in_lesson" ADD CONSTRAINT "PK_student_in_lesson" PRIMARY KE
 CREATE TABLE "ensemble" (
  "lesson_id" INT NOT NULL,
  "genre" VARCHAR(500) NOT NULL,
- "max_num_of_students" VARCHAR(500) NOT NULL,
- "min_num_of_students" VARCHAR(500) NOT NULL,
+ "max_num_of_students" INT NOT NULL,
+ "min_num_of_students" INT NOT NULL,
  "type_of_lesson" VARCHAR(500) NOT NULL
 );
 
@@ -102,8 +102,8 @@ ALTER TABLE "ensemble" ADD CONSTRAINT "PK_ensemble" PRIMARY KEY ("lesson_id");
 
 CREATE TABLE "group_lesson" (
  "lesson_id" INT NOT NULL,
- "max_num_of_students" VARCHAR(500) NOT NULL,
- "min_num_of_students" VARCHAR(500) NOT NULL,
+ "max_num_of_students" INT NOT NULL,
+ "min_num_of_students" INT NOT NULL,
  "skill_level" VARCHAR(500) NOT NULL,
  "type_of_lesson" VARCHAR(500) NOT NULL
 );
