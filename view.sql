@@ -60,7 +60,5 @@ CREATE VIEW ensemble_statistics AS
     from public.ensemble 
     INNER JOIN lesson ON  ensemble.lesson_id=lesson.lesson_id 
     INNER JOIN student_in_lesson ON student_in_lesson.lesson_id = lesson.lesson_id
-    -- WHERE ((EXTRACT(WEEK FROM NOW()) + 1) = (EXTRACT(WEEK FROM lesson.time)) AND (EXTRACT(YEAR FROM NOW())) = (EXTRACT(YEAR FROM lesson.time)))
     GROUP BY(YEAR,genre,ensemble.max_num_of_students,ensemble.min_num_of_students,ensemble.type_of_lesson,lesson.time)
-    -- GROUP BY(id, EXTRACT(YEAR FROM ensemble.lesson_id), week_number,genre, day_of_week,ensemble_size )
     ORDER BY(EXTRACT(DAY FROM lesson.time), genre);
