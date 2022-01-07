@@ -16,6 +16,10 @@ by developing a database which handles all the school's data and also an applica
 * [PostgresSQL](https://www.postgresql.org/download/)
 * [pgAdmin 4](https://www.pgadmin.org/download/)
  
+ 
+# Created by 
+- Murtadha Alobaidi mhaao@kth.se 
+- Abdullah Trabulsiah abdtra@kth.se
 
 
 
