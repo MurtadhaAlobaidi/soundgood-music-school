@@ -1,3 +1,7 @@
+--IV1351 KTH
+--Project 'Soundgood Music School', Task-3 
+--Created by Murtadha Alobaidi mhaao@kth.se & Abdullah Trabulsiah abdtra@kth.se
+
 CREATE VIEW lessones_statistics AS
     SELECT 
         EXTRACT(MONTH FROM lesson.time) AS month,
