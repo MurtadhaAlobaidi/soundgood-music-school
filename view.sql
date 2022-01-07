@@ -1,4 +1,4 @@
--- CREATE VIEW lessones_statistics AS
+CREATE VIEW lessones_statistics AS
     SELECT 
         EXTRACT(MONTH FROM lesson.time) AS month,
         EXTRACT(YEAR FROM lesson.time) AS YEAR,
@@ -13,7 +13,7 @@
     ORDER BY  MONTH;
 
 
--- CREATE VIEW avarage_lessons AS
+CREATE VIEW avarage_lessons AS
     SELECT 
         EXTRACT(YEAR FROM lesson.time) AS year,
         COUNT(lesson.type_of_lesson) AS total_num_of_lessons,
@@ -27,7 +27,7 @@
     GROUP BY (year);
 
 
--- CREATE VIEW instructor_statistics AS
+CREATE VIEW instructor_statistics AS
     SELECT  
         first_name || ' ' || last_name AS Instructor_Name,
         COUNT(lesson.lesson_id) AS total_lessons,
