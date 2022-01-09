@@ -31,8 +31,10 @@ This tools was helpeing to built this project.You can download them from here:
 
  
 # How to Execute
-1. Clone this git repository
-2. Change to the newly created directory cd soundgood-music-school
+1. Clone this git repository.  `git clone https://github.com/libgit2/libgit2`
+2. Change to the newly created directory cd soundgood-music-school.  `cd "doc-db-intro"`
+3. Build the project with the command `mvn install`
+4. Run the program with the command `mvn exec:java`
  
  
  
