@@ -33,7 +33,7 @@ This tools was helpeing to built this project.You can download them from here:
 # How to Execute
 1. Clone this git repository.  `git clone https://github.com/mhaao/Soundgood-Music-School.git`
 2. Change to the newly created directory cd soundgood-music-school.  `cd "Soundgood-Music-School"`
-3. 
+3. Create a database that can be reached with postgres.That is a database called Soundgood-Music-School.
 4. Build the project with the command `mvn install`
 5. Run the program with the command `mvn exec:java`
  
