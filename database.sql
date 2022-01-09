@@ -8,7 +8,8 @@ CREATE TABLE "instrument" (
  (start with 1 increment by 1),
  "type" VARCHAR(500) NOT NULL,
  "brand" VARCHAR(500) NOT NULL,
- "renting_fee" VARCHAR(500) NOT NULL
+ "renting_fee" VARCHAR(500) NOT NULL,
+ "status" VARCHAR(500) NOT NULL
 );
 
 ALTER TABLE "instrument" ADD CONSTRAINT "PK_instrument" PRIMARY KEY ("instrument_id");
@@ -75,7 +76,8 @@ CREATE TABLE "student" (
  "student_id"  int GENERATED ALWAYS AS IDENTITY
  (start with 200 increment by 1),
  "person_id" INT NOT NULL,
- "member_id" INT NOT NULL
+ "member_id" INT NOT NULL,
+ "total_rented_instruments_currently" INT NOT NULL
 );
 
 ALTER TABLE "student" ADD CONSTRAINT "PK_student" PRIMARY KEY ("student_id" );
@@ -132,7 +134,10 @@ ALTER TABLE "payment" ADD CONSTRAINT "PK_payment" PRIMARY KEY ("student_id" );
 
 CREATE TABLE "rented_instruments" (
  "student_id"  INT NOT NULL,
- "instrument_id" INT NOT NULL
+ "instrument_id" INT NOT NULL,
+ "renting_status" VARCHAR(500) NOT NULL,
+ "rent_date" TIMESTAMP(6) NOT NULL,
+ "return_date" TIMESTAMP(6) NOT NULL
 );
 
 ALTER TABLE "rented_instruments" ADD CONSTRAINT "PK_rented_instruments" PRIMARY KEY ("student_id" ,"instrument_id");

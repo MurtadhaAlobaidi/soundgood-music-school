@@ -3,12 +3,13 @@
 --Created by Murtadha Alobaidi mhaao@kth.se & Abdullah Trabulsiah abdtra@kth.se
 --This script we inserts data
 
-                                                                                                                      
-insert into instrument (type, brand, renting_fee) values ('accent',    'Gibson', '€9,94');                             
-insert into instrument (type, brand, renting_fee) values ('accordion', 'Harman International Industries', '€61,44');   
-insert into instrument (type, brand, renting_fee) values ('guitar',    'Shure', '€32,96');                             
-insert into instrument (type, brand, renting_fee) values ('adagio',    'Yamaha', '€54,12');                            
-insert into instrument (type, brand, renting_fee) values ('aeolian harp',  'Fender', '€38,37');                        
+ 
+                                                                                                                        
+insert into instrument (type, brand, renting_fee, status) values ('accent',    'Gibson', '€9,94'                          ,'rented'   );                             
+insert into instrument (type, brand, renting_fee, status) values ('accordion', 'Harman International Industries', '€61,44','rented'   );   
+insert into instrument (type, brand, renting_fee, status) values ('guitar',    'Shure', '€32,96'                          ,'rented'   );                             
+insert into instrument (type, brand, renting_fee, status) values ('adagio',    'Yamaha', '€54,12'                         ,'available');                            
+insert into instrument (type, brand, renting_fee, status) values ('aeolian harp',  'Fender', '€38,37'                     ,'available');                        
 
 
 insert into person ( first_name, last_name, person_number, street, zip, city) values ( 'Walther',   'Walther',   '3912628688', 'Debra',    '33456',      'Pskov');      
@@ -68,12 +69,12 @@ insert into parent (person_id) values (56);
 insert into parent (person_id) values (57); 
 
 
-insert into student (member_id , person_id) values  (150 , 50);    
-insert into student ( member_id , person_id) values (150 , 51);    
-insert into student ( member_id , person_id) values (151 , 52);    
-insert into student ( member_id , person_id) values (151 , 53);    
-insert into student ( member_id , person_id) values (152 , 54);    
-
+insert into student (member_id ,  person_id, total_rented_instruments_currently ) values (150 , 50, 1);    
+insert into student ( member_id , person_id, total_rented_instruments_currently ) values (150 , 51, 1);    
+insert into student ( member_id , person_id, total_rented_instruments_currently ) values (151 , 52, 1);    
+insert into student ( member_id , person_id, total_rented_instruments_currently ) values (151 , 53, 0);    
+insert into student ( member_id , person_id, total_rented_instruments_currently ) values (152 , 54, 0);    
+, 
 
 
 insert into student_in_lesson (student_id, lesson_id) values (200, 100);
@@ -116,6 +117,6 @@ insert into payment (student_id, total, lesson_fee, instrument_renting_fee) valu
 insert into payment (student_id, total, lesson_fee, instrument_renting_fee) values (204, 14, '€80,88', '€72,92');
 
 
-insert into rented_instruments (student_id, instrument_id) values (200, 1);
-insert into rented_instruments (student_id, instrument_id) values (201, 2);
-insert into rented_instruments (student_id, instrument_id) values (202, 3);
+insert into rented_instruments (student_id, instrument_id, renting_status, rent_date, return_date  ) values (200, 1, 'Ongoing', '2021-07-01 17:00:00', '2022-03-01 17:00:00');
+insert into rented_instruments (student_id, instrument_id, renting_status, rent_date, return_date  ) values (201, 2, 'Ongoing', '2021-08-11 10:00:00', '2022-02-11 17:06:46');
+insert into rented_instruments (student_id, instrument_id, renting_status, rent_date, return_date  ) values (202, 3,'Ongoing','2021-08-11 17:06:46', '2022-02-01 17:06:46' );
