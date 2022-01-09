@@ -11,15 +11,34 @@ by developing a database which handles all the school's data and also an applica
 * [JAVA](https://pages.github.com/)
 
 # TOOLS
+This tools was helpeing to built this project.You can download them from here:
 * [Visual Studio](https://code.visualstudio.com)
 * [SQL Shell(psql) 'terminal'](https://www.postgresql.org/download/)
 * [PostgresSQL](https://www.postgresql.org/download/)
-* [pgAdmin 4](https://www.pgadmin.org/download/)
+* [PgAdmin 4](https://www.pgadmin.org/download/)
+* [Lucidchart](https://www.lucidchart.com/pages/examples/flowchart_software)
+* [Astah](https://astah.net/downloads/)
+ 
+ # To connect java application with the database using JDBC.
+ We used `Eclipse` to build a `Maven-project` and connected a database with JAVA using JDBC.
+ >You need to add the `JDBC` file to your project on `Eclipse`.You can download them from here:
+ * [JDBC](https://jdbc.postgresql.org/download.html)
+ * [Eclipse](https://www.eclipse.org/downloads/)
+ * [Maven](https://maven.apache.org/download.cgi)
+ 
+ PostgreSQL JDBC Driver Postgresql 
+ [JDBC](https://search.maven.org/artifact/org.postgresql/postgresql/42.3.1/jar)
+
+ 
+# How to Execute
+1. Clone this git repository
+2. Change to the newly created directory cd soundgood-music-school
+ 
+ 
+ 
+ 
  
  
 # Created by 
 - Murtadha Alobaidi mhaao@kth.se 
 - Abdullah Trabulsiah abdtra@kth.se
-
-
-
