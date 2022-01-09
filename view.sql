@@ -1,3 +1,4 @@
+--Task3_1
 CREATE VIEW lessones_statistics AS
     SELECT 
         EXTRACT(MONTH FROM lesson.time) AS month,
@@ -12,7 +13,7 @@ CREATE VIEW lessones_statistics AS
     GROUP BY (month,year)
     ORDER BY  MONTH;
 
-
+--Task3_2
 CREATE VIEW avarage_lessons AS
     SELECT 
         EXTRACT(YEAR FROM lesson.time) AS year,
@@ -26,7 +27,7 @@ CREATE VIEW avarage_lessons AS
     FULL OUTER JOIN individual_lesson ON  lesson.lesson_id=individual_lesson.lesson_id
     GROUP BY (year);
 
-
+--Task3_3
 CREATE VIEW instructor_statistics AS
     SELECT  
         first_name || ' ' || last_name AS Instructor_Name,
@@ -42,7 +43,7 @@ CREATE VIEW instructor_statistics AS
     GROUP BY (Instructor_Name,MONTH) 
     ORDER BY MONTH;
 
-
+--Task3_4
 CREATE VIEW ensemble_statistics AS
     SELECT
          genre
@@ -62,3 +63,40 @@ CREATE VIEW ensemble_statistics AS
     INNER JOIN student_in_lesson ON student_in_lesson.lesson_id = lesson.lesson_id
     GROUP BY(YEAR,genre,ensemble.max_num_of_students,ensemble.min_num_of_students,ensemble.type_of_lesson,lesson.time)
     ORDER BY(EXTRACT(DAY FROM lesson.time), genre);
+
+
+    --Task4_1)
+CREATE VIEW available_instruments AS
+    SELECT instrument.instrument_id
+        ,instrument.type
+        ,instrument.brand
+        ,instrument.renting_fee
+        ,instrument.status
+    FROM instrument
+    WHERE instrument_id not in (SELECT instrument_id FROM rented_instruments);
+
+-- Task4_2)
+CREATE VIEW rented_instruments_info AS
+    SELECT 
+        instrument.instrument_id
+        ,instrument.status
+        ,rent_date
+        ,return_date
+        ,instrument.type
+        ,instrument.brand
+        ,instrument.renting_fee
+        ,person.first_name || ' ' || person.last_name AS Student_Name
+    FROM instrument
+    INNER JOIN rented_instruments ON rented_instruments.instrument_id = instrument.instrument_id
+    INNER JOIN student ON student.student_id= rented_instruments.student_id
+    INNER JOIN person ON student.person_id=person.person_id;
+
+--Task4_3)
+        UPDATE rented_instruments
+        SET renting_status= 'terminated' 
+        WHERE instrument_id=3;
+        
+        UPDATE instrument
+        SET status= 'available' 
+        WHERE instrument_id=3;
+        
