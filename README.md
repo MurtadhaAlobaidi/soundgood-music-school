@@ -38,7 +38,7 @@ This tools was helpeing to built this project.You can download them from here:
 1. Build the project with the command `mvn install`
 1. Run the program with the command `mvn exec:java`
 
-## Commands for the bank program
+## Commands for the Soundgood Music School project
 * `help` displays all commands.
 * `new <rent new instrument>` creates a new rent new instrument.
 * `list` lists all instruments.
