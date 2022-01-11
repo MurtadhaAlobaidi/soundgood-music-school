@@ -32,16 +32,21 @@ This tools was helpeing to built this project.You can download them from here:
  
 # How to Execute
 1. Clone this git repository.  `git clone https://github.com/mhaao/Soundgood-Music-School.git`
-2. Change to the newly created directory cd soundgood-music-school.  `cd "soundgood-music-school"`
-3. Create a database that can be reached with postgres.That is a database called soundgood-music-school.
-4. Build the project with the command `mvn install`
-5. Run the program with the command `mvn exec:java`
+1. Change to the newly created directory cd soundgood-music-school.  `cd "soundgood-music-school"`
+    1. Change the url to match your database.
+1. Create a database that can be reached with postgres.That is a database called soundgood-music-school.
+1. Build the project with the command `mvn install`
+1. Run the program with the command `mvn exec:java`
 
-Some basic Git commands are:
-```
-git clone
-```
- 
+## Commands for the bank program
+* `help` displays all commands.
+* `new <rent new instrument>` creates a new rent new instrument.
+* `list` lists all instruments.
+* `ensembles <ensembles lessones>` shows the all ensembles lessones.
+* `rent <all rented instruments>` shows the all rented instruments
+* `terminate <you can meak terminate instrument>` you can meak terminate instrument.
+* `quit` quits the application.
+
 
  
  
