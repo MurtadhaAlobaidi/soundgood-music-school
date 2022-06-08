@@ -391,7 +391,7 @@ public class BankDAO {
 
    private void connectToBankDB() throws ClassNotFoundException, SQLException {
        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/soundgood_music_school",
-                                                "postgres", "mortza2050");
+                                                "postgres", "pinkod");
 
        connection.setAutoCommit(false);
    }
