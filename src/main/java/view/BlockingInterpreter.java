@@ -121,6 +121,7 @@ public class BlockingInterpreter {
                             rentals = ctrl.getAllRentals();
 
                         } else {
+                            // <student_id instrument_id> Student can renting a specify instrument.
                             ctrl.deposit(Integer.parseInt(cmdLine.getParameter(1)));
                         }
 
