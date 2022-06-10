@@ -122,7 +122,7 @@ public class BlockingInterpreter {
 
                         } else {
                             // <student_id instrument_id> Student can renting a specify instrument.
-                            ctrl.deposit(Integer.parseInt(cmdLine.getParameter(1)));
+                            ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)));
                         }
 
                         for (InstrumentDTO rental : rentals) {
@@ -139,7 +139,8 @@ public class BlockingInterpreter {
 
                     case TERMINATE:
                         if (cmdLine.getParameter(0) == "")
-                            System.out.println("EXAMPLE: terminate instrument-id");
+                            System.out.println(
+                                    "You wrote in the wrong format. You must type as: EXAMPLE: terminate instrument-id");
                         ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)));
                         break;
 
