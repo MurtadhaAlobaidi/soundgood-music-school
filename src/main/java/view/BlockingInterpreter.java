@@ -140,7 +140,7 @@ public class BlockingInterpreter {
                     case TERMINATE:
                         if (cmdLine.getParameter(0) == "")
                             System.out.println(
-                                    "You wrote in the wrong format. You must type as: EXAMPLE: terminate instrument-id");
+                                    "OBS!!! You wrote in the wrong format. You must type as: EXAMPLE: <terminate instrument-id>");
                         ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)));
                         break;
 
