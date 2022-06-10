@@ -90,7 +90,9 @@ public class BlockingInterpreter {
                     case LIST:
                         List<? extends InstrumentDTO> instruments = null;
                         instruments = ctrl.getAllInstruments();
+                        // System.out.println("Enter: <type of instrument>");
                         for (InstrumentDTO instrument : instruments) {
+
                             System.out.println("instrument-id: " + instrument.getInstrumentId() + ", "
                                     + "type: " + instrument.getType() + ", "
                                     + "renting fee: " + instrument.getRentingFee() + ", "
@@ -115,7 +117,13 @@ public class BlockingInterpreter {
 
                     case RENT:
                         List<? extends InstrumentDTO> rentals = null;
-                        rentals = ctrl.getAllRentals();
+                        if (cmdLine.getParameter(0).equals("")) {
+                            rentals = ctrl.getAllRentals();
+
+                        } else {
+                            ctrl.deposit(Integer.parseInt(cmdLine.getParameter(1)));
+                        }
+
                         for (InstrumentDTO rental : rentals) {
                             System.out.println("Instrument-ID: " + rental.getInstrumentId() + ", "
                                     + "Renting fee: " + rental.getRentingFee() + ", "
