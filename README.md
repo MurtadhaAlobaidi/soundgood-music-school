@@ -42,7 +42,8 @@ This tools was helpeing to built this project.You can download them from here:
 * `help` displays all commands.
 * `list` lists all instruments that are available to rent. The listing shall show brand and price for each listed instrument.
 * `ensembles` List all ensembles held during the next week. For each ensemble tell whether it's full booked.
-* `rent<student_id  instrument_id>` Student can renting a specify instrument. Shows the all rented instruments. Remember that a student is not allowed to rent more than two instruments at the same time.
+* `rent` Shows the all rented and terminate instruments. 
+* `rent<student_id  instrument_id>` Student can rent specify instrument. Remember that a student is not allowed to rent more than two instruments at the same time.
 * `terminate <instrument_id>` Terminate an ongoing rental.
 * `quit` quits the application.
 
