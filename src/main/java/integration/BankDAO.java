@@ -35,6 +35,7 @@ import java.util.Calendar;
 
 import model.Instrument;
 import model.InstrumentDTO;
+import model.RejectedException;
 
 /**
  * This data access object (DAO) encapsulates all database calls in the bank
@@ -43,7 +44,7 @@ import model.InstrumentDTO;
  */
 public class BankDAO {
     // instrument
-    private static final String INSTRUMENT_TABLE_NAME = "instrument";
+    private static final String INSTRUMENT_TABLE_NAME = "instrument"; // instrument
     private static final String INSTRUMENT_ID_COLUMN_NAME = "instrument_id";
     private static final String TYPE_COLUMN_NAME = "type";
     private static final String BRAND_COLUMN_NAME = "brand";
@@ -82,7 +83,7 @@ public class BankDAO {
     private static final String RENTAL_STATUS_COLUMN_NAME = "renting_status";
 
     // terminated_task
-    private static final String TERMINATED_TASK_TABLE_NAME = "terminated_task";
+    private static final String TERMINATED_TASK_TABLE_NAME = "terminated_task"; // terminated_task
 
     private Connection connection;
     // private PreparedStatement createHolderStmt;
@@ -122,6 +123,7 @@ public class BankDAO {
     public void createAccount(int studentId, int instrumentId) throws BankDBException {
         String failureMsg = "Could not create the renatl of: ";
         int updatedRows = 0;
+
         try {
             Calendar date = Calendar.getInstance();
             long millisecondsDate = date.getTimeInMillis();
@@ -130,9 +132,16 @@ public class BankDAO {
             createAccountStmt.setString(3, "Ongoing");
             createAccountStmt.setDate(4, new Date(millisecondsDate));
             createAccountStmt.setDate(5, new Date(millisecondsDate + 15778800000L));
+
+            // Instrument instrument = new Instrument(studentId,
+            // instrumentId,"rented","Ongoing", 1);
+            // Instrument instrument = new Instrument(studentId, instrumentId);
+            // update();
+
             updatedRows = createAccountStmt.executeUpdate();
-            // Instrument instrument = new Instrument(studentId, instrumentId,);
+
             findHolderPKByName(studentId, instrumentId);
+
             if (updatedRows != 1) {
                 handleException(failureMsg, null);
             }
@@ -221,16 +230,18 @@ public class BankDAO {
      * @return A list with all existing accounts. The list is empty if there are no
      *         accounts.
      * @throws BankDBException If failed to search for accounts.
+     *                         ALLA Instrument
      */
     public List<Instrument> findAllInstruments() throws BankDBException {
         String failureMsg = "Could not list instruments.";
         List<Instrument> instruments = new ArrayList<>();
         try (ResultSet result = findAllInstrumentsStmt.executeQuery()) {
             while (result.next()) {
-                instruments.add(new Instrument(result.getString(TYPE_COLUMN_NAME),
-                        result.getString(RENTING_FEE_COLUMN_NAME),
+                instruments.add(new Instrument(
                         result.getInt(INSTRUMENT_ID_COLUMN_NAME),
+                        result.getString(TYPE_COLUMN_NAME),
                         result.getString(BRAND_COLUMN_NAME),
+                        result.getString(RENTING_FEE_COLUMN_NAME),
                         result.getString(STATUS_COLUMN_NAME)));
             }
             connection.commit();
@@ -388,10 +399,23 @@ public class BankDAO {
 
     private void prepareStatements() throws SQLException {
 
-        createAccountStmt = connection.prepareStatement("INSERT INTO " + RENTED_INSTRUMENTS_TABLE_NAME
-                + "(" + STUDENT_ID_COLUMN_NAME + ", " + INSTRUMENT_ID_COLUMN_NAME + ", "
-                + RENTING_STATUS_COLUMN_NAME + ", " + RENT_DATE_COLUMN_NAME + ", " + RETURN_DATE_COLUMN_NAME
-                + ") VALUES (?, ?, ?, ?, ?) ");
+        /*
+         * createAccountStmt = connection.prepareStatement("INSERT INTO " +
+         * RENTED_INSTRUMENTS_TABLE_NAME
+         * + "(" + STUDENT_ID_COLUMN_NAME + ", " + INSTRUMENT_ID_COLUMN_NAME + ", "
+         * + RENTING_STATUS_COLUMN_NAME + ", " + RENT_DATE_COLUMN_NAME + ", " +
+         * RETURN_DATE_COLUMN_NAME
+         * + ") VALUES (?, ?, ?, ?, ?) ");
+         * 
+         * ("INSERT INTO renting_instruments VALUES \r\n"
+         * + "(" + " ? " + "," + " ? " +
+         * ", CURRENT_DATE , CURRENT_DATE + INTERVAL '1 year'  )");
+         * 
+         */
+        createAccountStmt = connection.prepareStatement("INSERT INTO rented_instruments VALUES \r\n"
+                + "(" + " ? " + ", " + " ? " + ", "
+                + " ? " + ", " + RENT_DATE_COLUMN_NAME + ", " + RETURN_DATE_COLUMN_NAME
+                + ") VALUES (?, ? ) ");
 
         findHolderPKStmt = connection.prepareStatement(
                 "SELECT student." + TOTAL_RENTED_INSTRUMENTS_CURRENTLY_COLUMN_NAME + " FROM " + STUDENT_TABLE_NAME +

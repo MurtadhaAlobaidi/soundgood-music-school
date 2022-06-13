@@ -90,14 +90,18 @@ public class BlockingInterpreter {
                     case LIST:
                         List<? extends InstrumentDTO> instruments = null;
                         instruments = ctrl.getAllInstruments();
-                        // System.out.println("Enter: <type of instrument>");
-                        for (InstrumentDTO instrument : instruments) {
+                        if ((instruments.size()) != 0) {
+                            for (InstrumentDTO instrument : instruments) {
+                                System.out.println("instrument-id: " + instrument.getInstrumentId() + ", "
+                                        + "type: " + instrument.getType() + ", "
+                                        + "renting fee: " + instrument.getRentingFee() + ", "
+                                        + "brand: " + instrument.getBrand() + ", "
+                                        + "status: " + instrument.getStatus());
+                            }
 
-                            System.out.println("instrument-id: " + instrument.getInstrumentId() + ", "
-                                    + "type: " + instrument.getType() + ", "
-                                    + "renting fee: " + instrument.getRentingFee() + ", "
-                                    + "brand: " + instrument.getBrand() + ", "
-                                    + "status: " + instrument.getStatus());
+                        } else {
+                            System.out.println("There are no instruments available All instruments are rented");
+
                         }
                         break;
 
@@ -120,20 +124,21 @@ public class BlockingInterpreter {
                         if (cmdLine.getParameter(0).equals("")) {
                             rentals = ctrl.getAllRentals();
 
+                            for (InstrumentDTO rental : rentals) {
+                                System.out.println("Instrument-ID: " + rental.getInstrumentId() + ", "
+                                        + "Renting fee: " + rental.getRentingFee() + ", "
+                                        + "Type: " + rental.getType() + ", "
+                                        + "Brand: " + rental.getBrand() + ", "
+                                        + "Student name: " + rental.getStudentName() + ", "
+                                        + "Rent date: " + rental.getRentDate() + ", "
+                                        + "Return date: " + rental.getReturnDate() + ", "
+                                        + "Status: " + rental.getRentalStatus());
+                            }
                         } else {
                             // <student_id instrument_id> Student can renting a specify instrument.
-                            ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)));
-                        }
-
-                        for (InstrumentDTO rental : rentals) {
-                            System.out.println("Instrument-ID: " + rental.getInstrumentId() + ", "
-                                    + "Renting fee: " + rental.getRentingFee() + ", "
-                                    + "Type: " + rental.getType() + ", "
-                                    + "Brand: " + rental.getBrand() + ", "
-                                    + "Student name: " + rental.getStudentName() + ", "
-                                    + "Rent date: " + rental.getRentDate() + ", "
-                                    + "Return date: " + rental.getReturnDate() + ", "
-                                    + "Status: " + rental.getRentalStatus());
+                            // ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)));
+                            ctrl.createAccount(Integer.parseInt(cmdLine.getParameter(0)),
+                                    Integer.parseInt(cmdLine.getParameter(1)));
                         }
                         break;
 

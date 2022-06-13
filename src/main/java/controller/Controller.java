@@ -23,6 +23,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import integration.BankDAO;
@@ -57,24 +58,44 @@ public class Controller {
      * @throws AccountException If unable to create account.
      *                          här måste ha @instrument type
      */
-    // public void createAccount(int studentId, int instrumentId) throws
-    // AccountException {
-    // String failureMsg = "Could not create new rental for: " + studentId;
+    public void createAccount(int studentId, int instrumentId) throws AccountException {
+        String failureMsg = "Could not create new rental for: " + studentId;
+        //Calendar date = Calendar.getInstance();
+        //long millisecondsDate = date.getTimeInMillis();
 
-    // if (studentId == 0) {
-    // throw new AccountException(failureMsg);
-    // }
+        if (studentId == 0) {
+            throw new AccountException(failureMsg);
+        }
 
-    // try {
+        try {
+            /* Allt fungerar OBS!! Att hyra flera strumint måste fixa
+            * Försök 1 */
+            Instrument instrument = new Instrument(instrumentId, studentId, "rented", "Ongoing", 1);
+            bankDb.updateRental(instrument);
 
-    // Instrument instrument = new Instrument(studentId, instrumentId, failureMsg,
-    // instrumentId);
-    // bankDb.createAccount(studentId, instrumentId);
-    // bankDb.updateRental222(instrument);
-    // } catch (Exception e) {
-    // throw new AccountException(failureMsg, e);
-    // }
-    // }
+            /* OBS!! försöka fixa felet
+             * Försök 2
+            //Instrument instrument = new Instrument(instrumentId, studentId, "rented", "Ongoing", 1);
+            Instrument instrument = new Instrument(studentId, instrumentId);
+            instrument.update();
+            bankDb.createAccount(studentId, instrumentId);
+
+            bankDb.updateRental(instrument);*/
+
+
+            // bankDb.createAccount(studentId, instrumentId);
+            // Instrument instrument = new Instrument(instrumentId,studentId,
+            // "rented","Ongoing",1);
+            // bankDb.updateRental222(instrument);
+            // instrument.update();
+            // bankDb.updateRental(instrument);
+
+            // bankDb.createAccount(studentId, instrumentId);
+
+        } catch (Exception e) {
+            throw new AccountException(failureMsg, e);
+        }
+    }
 
     /**
      * Lists all accounts in the whole bank.
