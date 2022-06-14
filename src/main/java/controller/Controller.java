@@ -70,17 +70,23 @@ public class Controller {
         try {
             /* Allt fungerar OBS!! Att hyra flera strumint måste fixa
             * Försök 1 */
-            Instrument instrument = new Instrument(instrumentId, studentId, "rented", "Ongoing", 1);
-            bankDb.updateRental(instrument);
+          //  Instrument instrument = new Instrument(instrumentId, studentId, "rented", "Ongoing", 1);
+           // bankDb.updateRental(instrument);
 
-            /* OBS!! försöka fixa felet
-             * Försök 2
-            //Instrument instrument = new Instrument(instrumentId, studentId, "rented", "Ongoing", 1);
-            Instrument instrument = new Instrument(studentId, instrumentId);
-            instrument.update();
+            // OBS!! försöka fixa felet
+              //Försök 2
+            //Instrument instrument = new Instrument(instrumentId, studentId, "rented", "Ongoing", 0);
+
+
+            Instrument instrumentToRent = new Instrument(studentId, instrumentId);
             bankDb.createAccount(studentId, instrumentId);
+            //bankDb.updateRental(instrumentToRent);
 
-            bankDb.updateRental(instrument);*/
+            //bankDb.updateRental222(instrumentToRent);
+            //instrumentToRent.update();
+            instrumentToRent.update();
+            bankDb.updateRental(instrumentToRent);
+
 
 
             // bankDb.createAccount(studentId, instrumentId);
@@ -134,6 +140,14 @@ public class Controller {
             throw new AccountException("Unable to list rentals.", e);
         }
     }
+/*
+    public List<? extends InstrumentDTO> getStudents() throws AccountException {
+        try {
+            return bankDb.findStudent();
+        } catch (Exception e) {
+            throw new AccountException("Unable to list instruments.", e);
+        }
+    }*/
 
     // /**
     // * Lists all accounts owned by the specified account holder.

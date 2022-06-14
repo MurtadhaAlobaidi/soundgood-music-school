@@ -51,6 +51,8 @@ public class Instrument implements InstrumentDTO {
     private String typeOfLesson;
     private String ensembleStatus;
 
+
+
     // /**
     // * Creates an account for the specified holder with the balance zero. The
     // account
@@ -96,6 +98,15 @@ public class Instrument implements InstrumentDTO {
         this.brand = brand;
         this.rentingFee = rentingFee;
         this.status = status;
+    }
+
+
+    //Student
+    public Instrument(int studentId,int personId,int memberId, int totalRentedInstrumentsCurrently) {
+        this.studentId = studentId;
+        this.personId = personId;
+        this.memberId = memberId;
+        this.totalRentedInstrumentsCurrently = totalRentedInstrumentsCurrently;
     }
     /**************************************************************************************************/
     /************************** ensemble_statistics (findAllEnsembles()) *****************************/
@@ -159,6 +170,7 @@ public class Instrument implements InstrumentDTO {
     public Instrument(int studentId, int instrumentId) {
         this.studentId = studentId;
         this.instrumentId = instrumentId;
+        //this.status = status;
     }
 
 
@@ -340,13 +352,14 @@ public class Instrument implements InstrumentDTO {
     }
 
     public void update() throws RejectedException {
-        if (totalRentedInstrumentsCurrently > 2) {
+        if (totalRentedInstrumentsCurrently == 2) {
             throw new RejectedException(
                     "You have reached the maximum allowed number of renatls, you can return one of your erliear rentals to complete. ");
         }  else if (getStatus() == "rented") {
             throw new RejectedException("You can not rent this instrument, it's not available at the moment. ");
         }
         status = "rented";
+        rentingStatus = "Ongoing";
         totalRentedInstrumentsCurrently++;
     }
 
@@ -378,3 +391,4 @@ public class Instrument implements InstrumentDTO {
         return stringRepresentation.toString();
     }
 }
+
