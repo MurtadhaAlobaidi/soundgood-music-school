@@ -75,17 +75,19 @@ public class Controller {
 
             // OBS!! försöka fixa felet
               //Försök 2
-            //Instrument instrument = new Instrument(instrumentId, studentId, "rented", "Ongoing", 0);
+
+           /*
+          Instrument instrument = new Instrument(instrumentId, studentId, "rented", "Ongoing", 0);
+          bankDb.updateRental(instrument);
+            */
 
 
-            Instrument instrumentToRent = new Instrument(studentId, instrumentId);
+
+
+            Instrument instrument = new Instrument(studentId, instrumentId);
             bankDb.createAccount(studentId, instrumentId);
-            //bankDb.updateRental(instrumentToRent);
-
-            //bankDb.updateRental222(instrumentToRent);
-            //instrumentToRent.update();
-            instrumentToRent.update();
-            bankDb.updateRental(instrumentToRent);
+            instrument.update();
+            bankDb.updateRental222(instrument);
 
 
 
@@ -209,6 +211,7 @@ public class Controller {
 
         try {
             Instrument rental = bankDb.findAccountByAcctNo(instrumentId);
+            //Instrument rental = bankDb.findStudentsid(instrumentId);
             rental.deposit();
 
             bankDb.updateRental(rental);

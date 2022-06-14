@@ -341,14 +341,14 @@ public class Instrument implements InstrumentDTO {
         if (getRentingStatus().equalsIgnoreCase("Terminated")) {
             throw new RejectedException("Tried to terminate an already terminated rental, illegal request: ");
         }
-
         rentingStatus = "terminated";
         status = "available";
         totalRentedInstrumentsCurrently--;
-        if (totalRentedInstrumentsCurrently >= 0) {
-            return;
-        }
-        totalRentedInstrumentsCurrently = 0;
+
+            if (totalRentedInstrumentsCurrently >= 0) {
+                return;
+            }
+            totalRentedInstrumentsCurrently = 0;
     }
 
     public void update() throws RejectedException {
@@ -360,7 +360,7 @@ public class Instrument implements InstrumentDTO {
         }
         status = "rented";
         rentingStatus = "Ongoing";
-        totalRentedInstrumentsCurrently++;
+       //totalRentedInstrumentsCurrently++;
     }
 
     /**

@@ -120,3 +120,5 @@ insert into payment (student_id, total, lesson_fee, instrument_renting_fee) valu
 insert into rented_instruments (student_id, instrument_id, renting_status, rent_date, return_date  ) values (200, 1, 'Ongoing', '2021-07-01', '2022-03-01');
 insert into rented_instruments (student_id, instrument_id, renting_status, rent_date, return_date  ) values (201, 2, 'Ongoing', '2021-08-11', '2022-02-11');
 insert into rented_instruments (student_id, instrument_id, renting_status, rent_date, return_date  ) values (202, 3,'Ongoing',  '2021-08-11', '2022-02-01' );
+insert into rented_instruments (student_id, instrument_id, renting_status, rent_date, return_date  ) values (203, 4,'Ongoing',  '2022-04-11', '2022-09-01' );
+insert into rented_instruments (student_id, instrument_id, renting_status, rent_date, return_date  ) values (204, 5,'Ongoing',  '2022-06-17', '2022-08-01' );
