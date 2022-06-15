@@ -343,23 +343,34 @@ public class Instrument implements InstrumentDTO {
         }
         rentingStatus = "terminated";
         status = "available";
-        totalRentedInstrumentsCurrently--;
+       // totalRentedInstrumentsCurrently--;
 
-            if (totalRentedInstrumentsCurrently >= 0) {
+        if(totalRentedInstrumentsCurrently == 1){
+            totalRentedInstrumentsCurrently = 0;
+        }
+        if(totalRentedInstrumentsCurrently == 2){
+            totalRentedInstrumentsCurrently = 1;
+        }
+
+        /*
+                    if (totalRentedInstrumentsCurrently >= 0) {
                 return;
             }
             totalRentedInstrumentsCurrently = 0;
+
+         */
+
     }
 
     public void update() throws RejectedException {
         if (totalRentedInstrumentsCurrently == 2) {
             throw new RejectedException(
                     "You have reached the maximum allowed number of renatls, you can return one of your erliear rentals to complete. ");
-        }  else if (getStatus() == "rented") {
+        }  /*else if (getStatus() == "rented") {
             throw new RejectedException("You can not rent this instrument, it's not available at the moment. ");
-        }
+        }*/
         status = "rented";
-        rentingStatus = "Ongoing";
+        //rentingStatus = "Ongoing";
        //totalRentedInstrumentsCurrently++;
     }
 

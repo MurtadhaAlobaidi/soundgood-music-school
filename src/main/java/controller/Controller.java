@@ -84,10 +84,10 @@ public class Controller {
 
 
 
-            Instrument instrument = new Instrument(studentId, instrumentId);
+            //Instrument instrument = new Instrument(studentId, instrumentId);
             bankDb.createAccount(studentId, instrumentId);
-            instrument.update();
-            bankDb.updateRental222(instrument);
+           // instrument.update();
+            //bankDb.updateRental222(instrument);
 
 
 
