@@ -94,8 +94,15 @@ public class BankDAO {
     private PreparedStatement findHolderPK2Stmt;
 
     private PreparedStatement createAccountStmt;
+    private PreparedStatement updateAccountStmt;
+    private PreparedStatement changeStatusrentedStmt;
+    private PreparedStatement findAccountStmt;
+
+    private PreparedStatement createAccountInfoStmt;
     // private PreparedStatement findAccountByNameStmt;
     private PreparedStatement findAccountByAcctNoStmt;
+    //Hitta status from terminatet task
+    private PreparedStatement findAccountByAcctNo1Stmt;
     private PreparedStatement findAllRentalsStmt;
     private PreparedStatement findAllInstrumentsStmt;
     private PreparedStatement findAllEnsemblesStmt;
@@ -170,41 +177,18 @@ public class BankDAO {
     public void createAccount(int studentId, int instrumentId) throws BankDBException {
         String failureMsg = "Could not create the renatl of: ";
         int updatedRows1 = 1;
-       int updatedRows = 0;
         ResultSet result = null;
         int checker = 0;
-       // int result11 = 0;
-
+        ResultSet result11 = null;
 
 
         try {
+
             if (findAllInstruments().size()==0){
                 System.out.println("All instruments rented");
             }
-            /*
-            Calendar date = Calendar.getInstance();
-            long millisecondsDate = date.getTimeInMillis();
-            createAccountStmt.setInt(1, studentId);
-            createAccountStmt.setInt(2, instrumentId);
-            createAccountStmt.setString(3, "Ongoing");
-            createAccountStmt.setDate(4, new Date(millisecondsDate));
-            createAccountStmt.setDate(5, new Date(millisecondsDate + 15778800000L));
 
-            Instrument instrument = new Instrument(studentId, instrumentId);
-
-            updatedRows = createAccountStmt.executeUpdate();
-
-
-
-            findHolderPKByName(studentId, instrumentId);
-
-            if (updatedRows != 1) {
-                handleException(failureMsg, null);
-            }*/
-
-            //int c =findStudentsid(studentId).getTotalRentedInstrumentsCurrently();
-           //String s =findAccountByAcctNo(instrumentId).getStatus();
-
+            //Student
             findStudentStmt.setInt(1, studentId);
             result = findStudentStmt.executeQuery();
             while(result.next())
@@ -214,6 +198,7 @@ public class BankDAO {
                 System.out.println("You have reached the maximum allowed number of renatls, you can return one of your erliear rentals to complete.");
                 handleException(failureMsg, null);
             }
+
 
             findInstrumentStatusStmt.setInt(1, instrumentId);
             result = findInstrumentStatusStmt.executeQuery();
@@ -225,118 +210,40 @@ public class BankDAO {
                 handleException(failureMsg, null);
             }
 
+            String s =findAccountByAcctNo(instrumentId).getRentingStatus();
+            if(s.contains("Ongoing")){
 
 
-            /*
-            if (checker == 1){
-                changeStatus3Stmt.setInt(1,checker);
-                changeStatus3Stmt.setInt(2, studentId);
-                int updatedRows4 = changeStatus3Stmt.executeUpdate();
-                if (updatedRows4 != 1) {
-                    handleException(failureMsg, null);
-                }
-            }*/
+            //rented Instrument
+            createAccountStmt.setInt(1,studentId);
+            createAccountStmt.setInt(2,instrumentId);
+            createAccountStmt.setString(3, "Ongoing");
+
+            int updatedRows4 = createAccountStmt.executeUpdate();
+            if (updatedRows4 != 1) {
+                handleException(failureMsg, null);
+            }
+
+            // instrument tables
+            changeStatus2Stmt.setInt(2, instrumentId);
+            changeStatus2Stmt.setString(1, "rented");
+            int updatedRows6 = changeStatus2Stmt.executeUpdate();
+            if (updatedRows6 != 1) {
+                handleException(failureMsg, null);
+            }
+
+            //add to student
+            changeStatus3Stmt.setInt(1,checker + 1 );
+            changeStatus3Stmt.setInt(2, studentId);
+            int updatedRows3 = changeStatus3Stmt.executeUpdate();
+            if (updatedRows3 != 1) {
+                handleException(failureMsg, null);
+            }
+            }
 
             else {
-                //findStudent1Stmt.setInt(1, checker + 1);
-                //findStudent1Stmt.setInt(1,studentId);
-                // status = "rented";
-                //        //rentingStatus = "Ongoing";
-
-                changeStatus3Stmt.setInt(1,checker + 1 );
-                changeStatus3Stmt.setInt(2, studentId);
-                int updatedRows3 = changeStatus3Stmt.executeUpdate();
-                if (updatedRows3 != 1) {
-                    handleException(failureMsg, null);
+                try2(studentId, instrumentId);
                 }
-
-
-
-               // String s =findAccountByAcctNo(instrumentId).getStatus();
-              //  if(s.contains("rented") && updatedRows1 == 1){
-                    //throw new RejectedException("You can not rent this instrument, it's not available at the moment." );
-                    //System.out.println("You can not rent this instrument, it's not available at the moment.");
-              //      handleException(failureMsg, null);
-              //  }
-
-
-
-
-                Calendar date = Calendar.getInstance();
-                long millisecondsDate = date.getTimeInMillis();
-                createAccountStmt.setInt(1,studentId);
-                createAccountStmt.setInt(2,instrumentId);
-                createAccountStmt.setString(3, "Ongoing");
-
-               createAccountStmt.setDate(4, new Date(millisecondsDate));
-               createAccountStmt.setDate(5, new Date(millisecondsDate + 15778800000L));
-
-                int updatedRows4 = createAccountStmt.executeUpdate();
-                if (updatedRows4 != 1) {
-                       handleException(failureMsg, null);
-                }
-                //int updatedRows4 = createAccountStmt.executeUpdate();
-                //if (updatedRows4 != 1) {
-                 //   handleException(failureMsg, null);
-                //}
-                //Rented_instrument tables
-               // changeStatusStmt.setInt(2, instrumentId);
-                //changeStatusStmt.setString(1, "Ongoing");
-                //int updatedRows5 = changeStatusStmt.executeUpdate();
-                //if (updatedRows5 != 1) {
-                 //   handleException(failureMsg, null);
-                //}
-
-
-
-                // instrument tables
-                changeStatus2Stmt.setInt(2, instrumentId);
-                changeStatus2Stmt.setString(1, "rented");
-                int updatedRows6 = changeStatus2Stmt.executeUpdate();
-                if (updatedRows6 != 1) {
-                    handleException(failureMsg, null);
-                }
-
-
-
-            }
-           // findStudentStmt.setInt(4, c);
-            //findStudentStmt.setDate(4, new Date(millisecondsDate));
-            //findStudentStmt.setDate(5,  new Date(millisecondsDate + 15778800000L));
-
-           // updatedRows = findStudentStmt.executeUpdate();
-
-           // Instrument instrument = new Instrument(studentId, instrumentId);
-
-
-
-           // findHolderPKByName(studentId, instrumentId);
-            //findAccountByAcctNo(instrumentId);
-            //findStudentsid(studentId);
-/*
-            if (findAllInstruments().size()==0){
-                System.out.println("All instruments rented");
-            }
-           // updatedRows = createAccountStmt.executeUpdate();
-            String s =findAccountByAcctNo(instrumentId).getStatus();
-            if(s.contains("rented") && updatedRows1 == 1){
-                //throw new RejectedException("You can not rent this instrument, it's not available at the moment." );
-                //System.out.println("You can not rent this instrument, it's not available at the moment.");
-                handleException(failureMsg, null);
-            } */
-
-
-/*
-            //int c =findStudentsid(studentId).getTotalRentedInstrumentsCurrently();
-            if (c == 2 && updatedRows1 == 1) {
-                //throw new RejectedException("You have reached the maximum allowed number of renatls, you can return one of your erliear rentals to complete.");
-              // System.out.println("You have reached the maximum allowed number of renatls, you can return one of your erliear rentals to complete.");
-                handleException(failureMsg, null);
-            }*/
-/*
-           if (updatedRows != 1) {
-                handleException(failureMsg, null);
-            }*/
 
             connection.commit();
 
@@ -344,6 +251,65 @@ public class BankDAO {
             handleException(failureMsg, sqle);
         }
     }
+
+    public void try2(int studentId, int instrumentId) throws BankDBException {
+        String failureMsg = "Could not search for specified rental.";
+        ResultSet result2 = null;
+        int updatedRows2 =1;
+        int checker2 = 0;
+
+        try {
+            findStudentStmt.setInt(1, studentId);
+            result2 = findStudentStmt.executeQuery();
+            while(result2.next())
+                checker2 = result2.getInt(4);
+            if(checker2 == 2 && updatedRows2 == 1){
+
+                System.out.println("You have reached the maximum allowed number of renatls, you can return one of your erliear rentals to complete.");
+                handleException(failureMsg, null);
+            }
+
+            //rented instrument
+            updateAccountStmt.setInt(1,studentId);
+            updateAccountStmt.setInt(2,instrumentId);
+            //updateAccountStmt.setString(3," Ongoing");
+
+
+            //Instrument
+            changeStatus2Stmt.setInt(2, instrumentId);
+            changeStatus2Stmt.setString(1, "rented");
+            int updatedRows7 = changeStatus2Stmt.executeUpdate();
+            if (updatedRows7 != 1) {
+                handleException(failureMsg, null);
+            }
+
+            else {
+                //student
+                changeStatus3Stmt.setInt(1,checker2 + 1 );
+                changeStatus3Stmt.setInt(2, studentId);
+                int updatedRows3 = changeStatus3Stmt.executeUpdate();
+                if (updatedRows3 != 1) {
+                    handleException(failureMsg, null);
+                }
+
+                //rented instrument
+                changeStatusrentedStmt.setInt(2, instrumentId);
+                changeStatusrentedStmt.setString(1, "Ongoing");
+                int updatedRows9 = changeStatusrentedStmt.executeUpdate();
+                if (updatedRows9 != 1) {
+                    handleException(failureMsg, null);
+                }
+            }
+
+
+            connection.commit();
+        }catch (SQLException sqle){
+            handleException(failureMsg, sqle);
+        }
+    }
+
+
+
 
 /*
 //                + STATUS_COLUMN_NAME
@@ -468,6 +434,57 @@ public class BankDAO {
     }
     */
 
+
+    public void findAccountByAcctNo1(int studentId, int instrumentId) throws BankDBException {
+        String failureMsg = "Could not search for specified rental.";
+
+        int updatedRows1 = 0;
+        int upp123 = 0;
+        int result11 = 0;
+
+        try {
+/*
+            updateRentEnd.setInt(1, instrumentId);
+            updateRentEnd.setInt(2, studentId);
+            updatedRows1 = updateRentEnd.executeUpdate();
+
+            updateRentEnd = connection.prepareStatement("UPDATE renting_instruments\r\n"
+                    + "SET end_instrument_period = CURRENT_DATE \r\n"
+                    + "WHERE instrument_id = ? AND student_id= ? ");
+
+
+            updateQuota1.setInt(1, studentId);
+            updateQuota1.setInt(2, studentId);
+            result11 = updateQuota1.executeUpdate();
+
+            updateQuota1 = connection.prepareStatement("UPDATE student \r\n"
+                    + "SET quota = (SELECT quota \r\n"
+                    + "			FROM student \r\n"
+                    + "			WHERE student_id = ? \r\n"
+                    + "			) - 1 \r\n"
+                    + "WHERE student_id = ?		\r\n"
+                    + "			");
+
+            updateNumber1.setInt(1, instrumentId);
+            updateNumber1.setInt(2, instrumentId);
+            upp123 = updateNumber1.executeUpdate();
+
+            updateNumber1 = connection.prepareStatement("UPDATE instrument_in_stock \r\n"
+                    + "SET number_of_pcs_in_stock = (SELECT number_of_pcs_in_stock\r\n"
+                    + "							 FROM instrument_in_stock\r\n"
+                    + "							  WHERE instrument_id= ? \r\n"
+                    + "							 ) + 1 \r\n"
+                    + " WHERE instrument_id= ? ");
+
+*/
+
+            connection.commit();
+        }catch (SQLException sqle){
+            handleException(failureMsg, sqle);
+        }
+    }
+
+
     public Instrument findAccountByAcctNo(int instrumentId)
             throws BankDBException {
         PreparedStatement stmtToExecute;
@@ -475,15 +492,35 @@ public class BankDAO {
 
         String failureMsg = "Could not search for specified rental.";
         ResultSet result = null;
+        //ResultSet result1 = null;
+
+
         try {
-            stmtToExecute.setInt(1, instrumentId);
-            result = stmtToExecute.executeQuery();
-            if (result.next()) {
-                return new Instrument(result.getInt(INSTRUMENT_ID_COLUMN_NAME),
-                        result.getInt(STUDENT_ID_COLUMN_NAME),
-                        result.getString(STATUS_COLUMN_NAME),
-                        result.getString(RENTING_STATUS_COLUMN_NAME),
-                        result.getInt(TOTAL_RENTED_INSTRUMENTS_CURRENTLY_COLUMN_NAME));
+
+
+           /* findAccountByAcctNo1Stmt.setInt(1, instrumentId);
+            result1 = findAccountByAcctNo1Stmt.executeQuery();
+            String checkerRentingStatus = null;
+            while(result1.next())
+                checkerRentingStatus = result1.getString(4); */
+
+         //   if(checkerRentingStatus == "Ongoing"){
+
+                stmtToExecute.setInt(1, instrumentId);
+                result = stmtToExecute.executeQuery();
+                if (result.next()) {
+                    return new Instrument(
+                            result.getInt(INSTRUMENT_ID_COLUMN_NAME),
+                            result.getInt(STUDENT_ID_COLUMN_NAME),
+                            result.getString(STATUS_COLUMN_NAME),
+                            result.getString(RENTING_STATUS_COLUMN_NAME),
+                            result.getInt(TOTAL_RENTED_INSTRUMENTS_CURRENTLY_COLUMN_NAME));
+          //  }
+          //  else {
+           //     System.out.println("All instrument are Terminaitet");
+            //    }
+
+
                         /*
                         TYPE_COLUMN_NAME = "type";
                          BRAND_COLUMN_NAME = "brand";
@@ -660,12 +697,13 @@ public class BankDAO {
             if (updatedRows != 1) {
                 handleException(failureMsg, null);
             }
+            /*
             changeStatus2Stmt.setInt(2, rental.getInstrumentId());
             changeStatus2Stmt.setString(1, rental.getStatus());
             int updatedRows2 = changeStatus2Stmt.executeUpdate();
             if (updatedRows2 != 1) {
                 handleException(failureMsg, null);
-            }
+            }*/
           //  changeStatus3Stmt.setInt(2, rental.getStudentId());
            // changeStatus3Stmt.setInt(1, rental.getTotalRentedInstrumentsCurrently() );
 
@@ -724,24 +762,92 @@ public class BankDAO {
         /*
          * createAccountStmt = connection.prepareStatement("INSERT INTO " +
          * RENTED_INSTRUMENTS_TABLE_NAME
-         * + "(" + STUDENT_ID_COLUMN_NAME + ", " + INSTRUMENT_ID_COLUMN_NAME + ", "
-         * + RENTING_STATUS_COLUMN_NAME + ", " + RENT_DATE_COLUMN_NAME + ", " +
+         * + "(" + STUDENT_ID_COLUMN_NAME
+         * + ", " + INSTRUMENT_ID_COLUMN_NAME + ", "
+         * + RENTING_STATUS_COLUMN_NAME + ", "
+         * + RENT_DATE_COLUMN_NAME + ", " +
          * RETURN_DATE_COLUMN_NAME
-         * + ") VALUES (?, ?, ?, ?, ?) ");
+         * + ")
+         * VALUES (?, ?, ?, ?, ?) ");
          * 
          * ("INSERT INTO renting_instruments VALUES \r\n"
          * + "(" + " ? " + "," + " ? " +
          * ", CURRENT_DATE , CURRENT_DATE + INTERVAL '1 year'  )");
          * 
          */
-        createAccountStmt = connection.prepareStatement("INSERT INTO rented_instruments VALUES \r\n"
+/*
+        createAccountStmt = connection.prepareStatement("INSERT INTO "
+                + RENTED_INSTRUMENTS_TABLE_NAME
+                 + "(" + STUDENT_ID_COLUMN_NAME + " = ?"
+                 + ", " + INSTRUMENT_ID_COLUMN_NAME + " = ?"
+                + ", " + RENTING_STATUS_COLUMN_NAME + " = 'Ongoing'"
+                + ", " + " ? "
+                + ", " + " ? "
+                + ")" +  " VALUES (?, ?, ?, ?, ?) "); */
+
+       /* createAccountStmt = connection.prepareStatement("INSERT INTO rented_instruments VALUES \r\n"
                 + "(" + " ? "
                 + "," + " ? "
                 +  "," + " ? "
                 +  "," + " ? "
                 +  "," + " ? "
-                + ")" );
+                + ")" ); */
 
+        createAccountStmt = connection.prepareStatement("INSERT INTO rented_instruments VALUES \r\n"
+                + "(" + " ? "
+                + "," + " ? "
+                + "," + " ? "
+                + ", CURRENT_DATE , CURRENT_DATE + INTERVAL '1 year'  )");
+
+
+        //Rented Instrument
+    /*    updateAccountStmt = connection.prepareStatement("UPDATE " + RENTED_INSTRUMENTS_TABLE_NAME
+                + " SET " + RENTING_STATUS_COLUMN_NAME +  " = ?"
+                +  " WHERE " + STUDENT_ID_COLUMN_NAME + " = ?"
+                + " AND " + INSTRUMENT_ID_COLUMN_NAME + "= ?"); */
+
+        updateAccountStmt = connection.prepareStatement("UPDATE rented_instruments\r\n"
+                + "SET return_date = CURRENT_DATE \r\n"
+                + "WHERE instrument_id = ? AND student_id= ? "); //instrument_id = 'terminated'
+
+        changeStatusrentedStmt = connection.prepareStatement("UPDATE " + RENTED_INSTRUMENTS_TABLE_NAME
+                + " SET " + RENTING_STATUS_COLUMN_NAME + " = ? WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ? ");
+
+     /*   "UPDATE " + STUDENT_TABLE_NAME
+                + " SET " + TOTAL_RENTED_INSTRUMENTS_CURRENTLY_COLUMN_NAME + " = ? WHERE " + STUDENT_ID_COLUMN_NAME
+                + " = ? " /*
+/*
+        changeStatusStmt = connection.prepareStatement("UPDATE " + RENTED_INSTRUMENTS_TABLE_NAME
+                + " SET " + RENTING_STATUS_COLUMN_NAME + " = ? WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ? ");*/
+
+        //Rented Instrument
+        findAccountStmt = connection.prepareStatement("SELECT * FROM " + RENTED_INSTRUMENTS_TABLE_NAME +
+                " WHERE " + STUDENT_ID_COLUMN_NAME + " = ?"
+                + " AND " + INSTRUMENT_ID_COLUMN_NAME + "= ?");
+
+
+/*
+    private static final String RENTED_INSTRUMENTS_TABLE_NAME = "rented_instruments";
+    private static final String STUDENT_ID_FK_COLUMN_NAME = STUDENT_ID_COLUMN_NAME;
+    private static final String PERSON_ID_FK_COLUMN_NAME = PERSON_ID_COLUMN_NAME;
+    private static final String RENTING_STATUS_COLUMN_NAME = "renting_status";
+    private static final String RENT_DATE_COLUMN_NAME = "rent_date";
+    private static final String RETURN_DATE_COLUMN_NAME = "return_date";
+ */
+
+
+        /*
+        createAccountInfoStmt = connection.prepareStatement("INSERT INTO rented_instruments VALUES \r\n"
+                + "(" + " ? "
+                + "," + " ? "
+                +  "," + " ? "
+                +  "," + " ? "
+                +  "," + " ? "
+                +  "," + " ? "
+                +  "," + " ? "
+                +  "," + " ? "
+                + ")" ); /*
+         */
        /* showQuota = connection.prepareStatement("SELECT total_rented_instruments_currently \r\n"
                 + "FROM student\r\n"
                 + "WHERE student_id=? \r\n"
@@ -818,6 +924,25 @@ public class BankDAO {
         // terminate (måste instrument)
         findAccountByAcctNoStmt = connection.prepareStatement("SELECT * FROM " + TERMINATED_TASK_TABLE_NAME +
               " WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ?");
+
+
+
+//Terminate with rentingstatus "Ongoing"
+        findAccountByAcctNo1Stmt = connection.prepareStatement("UPDATE " + TERMINATED_TASK_TABLE_NAME
+                + " WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ?"
+                + " AND " + RENTING_STATUS_COLUMN_NAME + " = 'Ongoing'"
+                );
+        //+ " AND " + RENTING_STATUS_COLUMN_NAME + " = Ongoing"
+
+                 /*("SELECT * FROM " + TERMINATED_TASK_TABLE_NAME +
+                " WHERE "
+                 + INSTRUMENT_ID_COLUMN_NAME + " = ?" + " AND " + RENTING_STATUS_COLUMN_NAME + " = Ongoing" );*/
+        /*
+        ("UPDATE renting_instruments\r\n"
+                + "SET end_instrument_period = CURRENT_DATE \r\n"
+                + "WHERE instrument_id = ? AND student_id= ? "); */
+
+
  //Instrument terminate
       //  findAccountByAcctNoStmt = connection.prepareStatement("SELECT * FROM " + INSTRUMENT_TABLE_NAME +
            //     " WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ?");
