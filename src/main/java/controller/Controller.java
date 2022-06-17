@@ -203,7 +203,7 @@ public class Controller {
     // * @throws RejectedException If not allowed to deposit the specified amount.
     // * @throws AccountException If failed to deposit.
     // */
-    public void deposit(int instrumentId) throws RejectedException, AccountException {
+    public void deposit(int studentId ,int instrumentId) throws RejectedException, AccountException {
         String failureMsg = "Could not deposit to account: " + instrumentId;
 
         if (instrumentId == 0) {
@@ -211,11 +211,13 @@ public class Controller {
         }
 
         try {
-            Instrument rental = bankDb.findAccountByAcctNo(instrumentId);
+            //Instrument rental = bankDb.findAccountByAcctNo5(instrumentId);//
+            bankDb.findTerminated(studentId, instrumentId);
+            bankDb.terminated(studentId, instrumentId);
             //Instrument rental = bankDb.findStudentsid(instrumentId);
-            rental.deposit();
+            //rental.deposit();
 
-            bankDb.updateRental(rental);
+           // bankDb.updateRental(rental);
         } catch (BankDBException bdbe) {
             throw new AccountException(failureMsg, bdbe);
         } catch (Exception e) {

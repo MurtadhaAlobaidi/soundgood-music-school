@@ -146,7 +146,9 @@ public class BlockingInterpreter {
                         if (cmdLine.getParameter(0) == "")
                             System.out.println(
                                     "OBS!!! You wrote in the wrong format. You must type as: EXAMPLE: <terminate instrument-id>");
-                        ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)));
+                        //ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)));
+                        ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)),
+                                Integer.parseInt(cmdLine.getParameter(1)));
                         break;
 
                     default:

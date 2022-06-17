@@ -99,6 +99,16 @@ public class Instrument implements InstrumentDTO {
         this.rentingFee = rentingFee;
         this.status = status;
     }
+    //Rented instrument
+    public Instrument(int studentId,int instrumentId,String rentalStatus, String rentDate , String returnDate) {
+        this.studentId = studentId;
+        this.instrumentId = instrumentId;
+        this.rentalStatus = rentalStatus;
+        this.rentDate = rentDate;
+        this.returnDate = returnDate;
+    }
+
+
 
 
     //Student
@@ -172,10 +182,6 @@ public class Instrument implements InstrumentDTO {
         this.instrumentId = instrumentId;
         //this.status = status;
     }
-
-
-
-
 
 
 
