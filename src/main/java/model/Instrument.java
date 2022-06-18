@@ -51,9 +51,8 @@ public class Instrument implements InstrumentDTO {
     private String typeOfLesson;
     private String ensembleStatus;
 
-
-    //Instrument Tables
-    public Instrument(int instrumentId,String type,String brand, String rentingFee, String status) {
+    // Instrument Tables
+    public Instrument(int instrumentId, String type, String brand, String rentingFee, String status) {
         this.instrumentId = instrumentId;
         this.type = type;
         this.brand = brand;
@@ -61,9 +60,9 @@ public class Instrument implements InstrumentDTO {
         this.status = status;
     }
 
-    //ensemble_statistics Views
+    // ensemble_statistics Views
     public Instrument(String genre, int maxNumOfStudents, int minNumOfStudents, int year, int weekNumber, int day,
-                      String ensembleStatus) {
+            String ensembleStatus) {
         this.genre = genre;
         this.maxNumOfStudents = maxNumOfStudents;
         this.minNumOfStudents = minNumOfStudents;
@@ -75,7 +74,7 @@ public class Instrument implements InstrumentDTO {
 
     // rented_instruments_info Views
     public Instrument(int instrumentId, String rentingFee, String type, String brand, String studentName,
-                      String rentDate, String returnDate, String rentalStatus) {
+            String rentDate, String returnDate, String rentalStatus) {
         this.brand = brand;
         this.instrumentId = instrumentId;
         this.rentingFee = rentingFee;
@@ -85,14 +84,6 @@ public class Instrument implements InstrumentDTO {
         this.returnDate = returnDate;
         this.rentalStatus = rentalStatus;
     }
-
-
-
-
-
-
-
-
 
     /**
      * @return The account number.
@@ -142,9 +133,6 @@ public class Instrument implements InstrumentDTO {
     public String getRentingStatus() {
         return rentingStatus;
     }
-
-
-
 
     /**
      * @return The holder's name.
@@ -261,4 +249,3 @@ public class Instrument implements InstrumentDTO {
         return stringRepresentation.toString();
     }
 }
-
