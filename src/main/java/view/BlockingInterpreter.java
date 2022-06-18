@@ -79,14 +79,6 @@ public class BlockingInterpreter {
                         keepReceivingCmds = false;
                         break;
 
-                    // Create new rent
-                    // case NEW:
-                    // if (cmdLine.getParameter(0) == "")
-                    // System.out.println("EXAMPLE: new student-id instrument-id");
-                    // ctrl.createAccount(Integer.parseInt(cmdLine.getParameter(0)),
-                    // Integer.parseInt(cmdLine.getParameter(1)));
-                    // break;
-
                     case LIST:
                         List<? extends InstrumentDTO> instruments = null;
                         instruments = ctrl.getAllInstruments();
@@ -135,8 +127,6 @@ public class BlockingInterpreter {
                                         + "Status: " + rental.getRentalStatus());
                             }
                         } else {
-                            // <student_id instrument_id> Student can renting a specify instrument.
-                            // ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)));
                             ctrl.createAccount(Integer.parseInt(cmdLine.getParameter(0)),
                                     Integer.parseInt(cmdLine.getParameter(1)));
                         }
@@ -145,8 +135,7 @@ public class BlockingInterpreter {
                     case TERMINATE:
                         if (cmdLine.getParameter(0) == "")
                             System.out.println(
-                                    "OBS!!! You wrote in the wrong format. You must type as: EXAMPLE: <terminate instrument-id>");
-                        //ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)));
+                                    "OBS!!! You wrote in the wrong format. You must type as: EXAMPLE: <terminate student-id instrument-id>");
                         ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)),
                                 Integer.parseInt(cmdLine.getParameter(1)));
                         break;

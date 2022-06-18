@@ -52,45 +52,6 @@ public class Instrument implements InstrumentDTO {
     private String ensembleStatus;
 
 
-
-    // /**
-    // * Creates an account for the specified holder with the balance zero. The
-    // account
-    // * number is unspecified.
-    // *
-    // * @param holderName The account holder's holderName.
-    // * @param bankDB The DAO used to store updates to the database.
-    // */
-    // public Instrument(String holderName) {
-    // this(null, holderName, 0);
-    // }
-    //
-    // /**
-    // * Creates an account for the specified holder with the specified balance. The
-    // * account number is unspecified.
-    // *
-    // * @param holderName The account holder's holderName.
-    // * @param balance The initial balance.
-    // */
-    // public Instrument(String holderName, int balance) {
-    // this(null, holderName, balance);
-    // }
-    //
-    // /**
-    // * Creates an account for the specified holder with the specified balance and
-    // account
-    // * number.
-    // *
-    // * @param acctNo The account number.
-    // * @param holderName The account holder's holderName.
-    // * @param balance The initial balance.
-    // */
-    // public Instrument(String acctNo, String holderName, int balance) {
-    // this.acctNo = acctNo;
-    // this.holderName = holderName;
-    // this.balance = balance;
-    // }
-    /********************************OK För Instrument (findAllInstruments())******************************/
     //Instrument Tables
     public Instrument(int instrumentId,String type,String brand, String rentingFee, String status) {
         this.instrumentId = instrumentId;
@@ -99,27 +60,7 @@ public class Instrument implements InstrumentDTO {
         this.rentingFee = rentingFee;
         this.status = status;
     }
-    //Rented instrument
-    public Instrument(int studentId,int instrumentId,String rentalStatus, String rentDate , String returnDate) {
-        this.studentId = studentId;
-        this.instrumentId = instrumentId;
-        this.rentalStatus = rentalStatus;
-        this.rentDate = rentDate;
-        this.returnDate = returnDate;
-    }
 
-
-
-
-    //Student
-    public Instrument(int studentId,int personId,int memberId, int totalRentedInstrumentsCurrently) {
-        this.studentId = studentId;
-        this.personId = personId;
-        this.memberId = memberId;
-        this.totalRentedInstrumentsCurrently = totalRentedInstrumentsCurrently;
-    }
-    /**************************************************************************************************/
-    /************************** ensemble_statistics (findAllEnsembles()) *****************************/
     //ensemble_statistics Views
     public Instrument(String genre, int maxNumOfStudents, int minNumOfStudents, int year, int weekNumber, int day,
                       String ensembleStatus) {
@@ -131,8 +72,7 @@ public class Instrument implements InstrumentDTO {
         this.day = day;
         this.ensembleStatus = ensembleStatus;
     }
-    /**************************************************************************************************/
-    /********************** rented_instruments_info (findAllRentals()) ********************************/
+
     // rented_instruments_info Views
     public Instrument(int instrumentId, String rentingFee, String type, String brand, String studentName,
                       String rentDate, String returnDate, String rentalStatus) {
@@ -145,43 +85,12 @@ public class Instrument implements InstrumentDTO {
         this.returnDate = returnDate;
         this.rentalStatus = rentalStatus;
     }
-    /**************************************************************************************************/
-    /********************** terminated_task (findAccountByAcctNo()) ********************************/
-    //terminated_task Views
-    public Instrument(int instrumentId, int studentId, String status, String rentingStatus,
-                      int totalRentedInstrumentsCurrently) {
-        this.status = status;
-        this.studentId = studentId;
-        this.instrumentId = instrumentId;
-        this.rentingStatus = rentingStatus;
-        this.totalRentedInstrumentsCurrently = totalRentedInstrumentsCurrently;
-    }
-    /**************************************************************************************************/
-
-    /**
-     * Creates an account for the specified holder with the specified balance and
-     * account
-     * number.
-     *
-     * @param type         The account number.
-     * @param rentingFee   The account holder's holderName.
-     * @param instrumentId The initial balance.
-     */
-    /*
-    public Instrument(int studentId, int instrumentId, String status, int totalRentedInstrumentsCurrently) {
-        this.studentId = studentId;
-        this.instrumentId = instrumentId;
-        this.status = status;
-        this.totalRentedInstrumentsCurrently = totalRentedInstrumentsCurrently;
-
-    }*/
 
 
-    public Instrument(int studentId, int instrumentId) {
-        this.studentId = studentId;
-        this.instrumentId = instrumentId;
-        //this.status = status;
-    }
+
+
+
+
 
 
 
@@ -234,19 +143,8 @@ public class Instrument implements InstrumentDTO {
         return rentingStatus;
     }
 
-    /**
-     * @return The holder's name.
-     */
-    public int getpersonId() {
-        return personId;
-    }
 
-    /**
-     * @return The holder's name.
-     */
-    public int getMemberId() {
-        return memberId;
-    }
+
 
     /**
      * @return The holder's name.
@@ -334,51 +232,6 @@ public class Instrument implements InstrumentDTO {
     }
 
     // *************************************************************************************************************************/
-
-    // /**
-    // * Deposits the specified amount.
-    // *
-    // * @param amount The amount to deposit.
-    // * @throws AccountException If the specified amount is negative, or if unable
-    // to
-    // * perform the update.
-    // */
-    public void deposit() throws RejectedException {
-        if (getRentingStatus().equalsIgnoreCase("Terminated")) {
-            throw new RejectedException("Tried to terminate an already terminated rental, illegal request: ");
-        }
-        rentingStatus = "terminated";
-        status = "available";
-       // totalRentedInstrumentsCurrently--;
-
-        if(totalRentedInstrumentsCurrently == 1){
-            totalRentedInstrumentsCurrently = 0;
-        }
-        if(totalRentedInstrumentsCurrently == 2){
-            totalRentedInstrumentsCurrently = 1;
-        }
-
-        /*
-                    if (totalRentedInstrumentsCurrently >= 0) {
-                return;
-            }
-            totalRentedInstrumentsCurrently = 0;
-
-         */
-
-    }
-
-    public void update() throws RejectedException {
-        if (totalRentedInstrumentsCurrently == 2) {
-            throw new RejectedException(
-                    "You have reached the maximum allowed number of renatls, you can return one of your erliear rentals to complete. ");
-        }  /*else if (getStatus() == "rented") {
-            throw new RejectedException("You can not rent this instrument, it's not available at the moment. ");
-        }*/
-        status = "rented";
-        //rentingStatus = "Ongoing";
-       //totalRentedInstrumentsCurrently++;
-    }
 
     /**
      * @return A string representation of all fields in this object.
