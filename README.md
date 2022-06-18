@@ -34,7 +34,7 @@ This tools was helpeing to built this project.You can download them from here:
 1. Clone this git repository.  `git clone https://github.com/mhaao/Soundgood-Music-School.git`
 1. Change to the newly created directory cd soundgood-music-school.  `cd "soundgood-music-school"`
     1. Change the url to match your database. You can find that in `<BankDAO>`
-1. Create a database that can be reached with postgres.That is a database called soundgood-music-school.
+1. Create a database that can be reached with postgres `database.sql` and `insert.sql`. That all tables and data you need to a database called soundgood-music-school.
 1. Build the project with the command `mvn install`
 1. Run the program with the command `mvn exec:java`
 
@@ -43,8 +43,8 @@ This tools was helpeing to built this project.You can download them from here:
 * `list` lists all instruments that are available to rent. The listing shall show brand and price for each listed instrument.
 * `ensembles` List all ensembles held during the next week. For each ensemble tell whether it's full booked.
 * `rent` Shows the all rented and terminate instruments. 
-* `rent<student_id  instrument_id>` Student can rent specify instrument. Remember that a student is not allowed to rent more than two instruments at the same time.
-* `terminate <instrument_id>` Terminate an ongoing rental.
+* `rent <student_id> <instrument_id>` Student can rent specify instrument. Remember that a student is not allowed to rent more than two instruments at the same time.
+* `terminate <student_id> <instrument_id>` Terminate an ongoing rental.
 * `quit` quits the application.
 
 

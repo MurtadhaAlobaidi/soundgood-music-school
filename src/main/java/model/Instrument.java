@@ -23,7 +23,7 @@
 package model;
 
 /**
- * An account in the bank.
+ * An Instrument in the Music School.
  */
 public class Instrument implements InstrumentDTO {
     private int instrumentId;
@@ -86,140 +86,144 @@ public class Instrument implements InstrumentDTO {
     }
 
     /**
-     * @return The account number.
+     * @return The instrument type.
      */
     public String getType() {
         return type;
     }
 
     /**
-     * @return The account number.
+     * @return The instrument brand.
      */
     public String getBrand() {
         return brand;
     }
 
     /**
-     * @return The account number.
+     * @return The instrument status.
      */
     public String getStatus() {
         return status;
     }
 
     /**
-     * @return The balance.
+     * @return The instrument-id.
      */
     public int getInstrumentId() {
         return instrumentId;
     }
 
     /**
-     * @return The holder's name.
+     * @return The instrument renting fee.
      */
     public String getRentingFee() {
         return rentingFee;
     }
 
     /**
-     * @return The holder's name.
+     * @return The student-id.
      */
     public int getStudentId() {
         return studentId;
     }
 
     /**
-     * @return The holder's name.
+     * @return The renting status from rented_instruments table.
      */
     public String getRentingStatus() {
         return rentingStatus;
     }
 
     /**
-     * @return The holder's name.
+     * @return The total rented instrument to the student.
      */
     public int getTotalRentedInstrumentsCurrently() {
         return totalRentedInstrumentsCurrently;
     }
 
     /**
-     * @return The holder's name.
+     * @return The rent date.
      */
     public String getRentDate() {
         return rentDate;
     }
 
     /**
-     * @return The holder's name.
+     * @return The return date for the rental.
      */
     public String getReturnDate() {
         return returnDate;
     }
 
     /**
-     * @return The balance.
+     * @return The max student in the lesson.
      */
     public int getMaxNumOfStudents() {
         return maxNumOfStudents;
     }
 
     /**
-     * @return The balance.
+     * @return The min student in the lesson.
      */
     public int getMinNumOfStudents() {
         return minNumOfStudents;
     }
 
     /**
-     * @return The balance.
+     * @return The year.
      */
     public int getYear() {
         return year;
     }
 
     /**
-     * @return The balance.
+     * @return The week number.
      */
     public int getWeekNumber() {
         return weekNumber;
     }
 
     /**
-     * @return The balance.
+     * @return The day.
      */
     public int getDay() {
         return day;
     }
 
     /**
-     * @return The holder's name.
+     * @return The genre to the lesson.
      */
     public String getGenre() {
         return genre;
     }
 
     /**
-     * @return The holder's name.
+     * @return The type of lesson.
      */
     public String getTypeOfLesson() {
         return typeOfLesson;
     }
 
     /**
-     * @return The holder's name.
+     * @return The ensembles status.
      */
     public String getEnsembleStatus() {
         return ensembleStatus;
     }
 
+    /**
+     * @return the student name.
+     */
     public String getStudentName() {
         return studentName;
     }
 
+    /**
+     * @return the rental status.
+     */
     public String getRentalStatus() {
         return rentalStatus;
     }
-
-    // *************************************************************************************************************************/
 
     /**
      * @return A string representation of all fields in this object.

@@ -24,10 +24,10 @@ package controller;
 
 import java.util.List;
 
-import integration.BankDAO;
-import integration.BankDBException;
+import integration.SchoolDAO;
+import integration.MusicSchoolException;
 import model.InstrumentDTO;
-import model.AccountException;
+import model.RentException;
 import model.RejectedException;
 
 /**
@@ -37,112 +37,113 @@ import model.RejectedException;
  * the data, and finally tells the DAO to store the updated data (if any).
  */
 public class Controller {
-    private final BankDAO bankDb;
+    private final SchoolDAO schoolDb;
 
     /**
      * Creates a new instance, and retrieves a connection to the database.
      * 
-     * @throws BankDBException If unable to connect to the database.
+     * @throws MusicSchoolException If unable to connect to the database.
      */
-    public Controller() throws BankDBException {
-        bankDb = new BankDAO();
+    public Controller() throws MusicSchoolException {
+        schoolDb = new SchoolDAO();
     }
 
     /**
-     * Creates a new account for the specified account holder.
+     * Creates a new rent for the specified studentID and instrumentID.
      * 
-     * @param studentId The account holder's name.
-     * @throws AccountException If unable to create account.
-     *                          här måste ha @instrument type
+     * @param studentId The student name.
+     * @throws RentException If unable to create account.
+     *
      */
-    public void createAccount(int studentId, int instrumentId) throws AccountException {
+    public void createNewRental(int studentId, int instrumentId) throws RentException {
         String failureMsg = "Could not create new rental for: " + studentId;
 
         if (studentId == 0) {
-            throw new AccountException(failureMsg);
+            throw new RentException(failureMsg);
         }
 
         try {
 
-            bankDb.createAccount(studentId, instrumentId);
+            schoolDb.createNewRental(studentId, instrumentId);
 
         } catch (Exception e) {
-            throw new AccountException(failureMsg, e);
-        }
-    }
-
-    /**
-     * Lists all accounts in the whole bank.
-     * 
-     * @return A list containing all accounts. The list is empty if there are no
-     *         accounts.
-     * @throws AccountException If unable to retrieve accounts.
-     */
-    public List<? extends InstrumentDTO> getAllInstruments() throws AccountException {
-        try {
-            return bankDb.findAllInstruments();
-        } catch (Exception e) {
-            throw new AccountException("Unable to list instruments.", e);
+            throw new RentException(failureMsg, e);
         }
     }
 
     /**
-     * Lists all accounts in the whole bank.
+     * Lists all instruments in the whole music school.
      * 
-     * @return A list containing all accounts. The list is empty if there are no
-     *         accounts.
-     * @throws AccountException If unable to retrieve accounts.
+     * @return A list containing all instruments. The list is empty if there are no
+     *         instrument rented.
+     * @throws RentException If unable to retrieve instruments.
      */
-    public List<? extends InstrumentDTO> getAllEnsembles() throws AccountException {
+    public List<? extends InstrumentDTO> getAllInstruments() throws RentException {
         try {
-            return bankDb.findAllEnsembles();
+            return schoolDb.findAllInstruments();
         } catch (Exception e) {
-            throw new AccountException("Unable to list ensembles.", e);
+            throw new RentException("Unable to list instruments.", e);
         }
     }
 
-    public List<? extends InstrumentDTO> getAllRentals() throws AccountException {
+    /**
+     * Lists all ensemble's lesson in the music school.
+     * 
+     * @return A list containing all ensemble's lesson. The list is empty if there
+     *         are no
+     *         ensemble's lesson.
+     * @throws RentException If unable to retrieve instruments.
+     */
+    public List<? extends InstrumentDTO> getAllEnsembles() throws RentException {
         try {
-            return bankDb.findAllRentals();
+            return schoolDb.findAllEnsembles();
         } catch (Exception e) {
-            throw new AccountException("Unable to list rentals.", e);
+            throw new RentException("Unable to list ensembles.", e);
+        }
+    }
+
+    public List<? extends InstrumentDTO> getAllRentals() throws RentException {
+        try {
+            return schoolDb.findAllRentals();
+        } catch (Exception e) {
+            throw new RentException("Unable to list rentals.", e);
         }
     }
 
     // /**
-    // * Deposits the specified amount to the account with the specified account
-    // * number.
+    // * Terminated the specified instruments to the student with the specified
+    // ID-number.
     // *
-    // * @param acctNo The number of the account to which to deposit.
-    // * @param amt The amount to deposit.
-    // * @throws RejectedException If not allowed to deposit the specified amount.
-    // * @throws AccountException If failed to deposit.
+    // * @param studentId The number of the student.
+    // * @param instrumentId The number of the instrument.
+    // * @throws RejectedException If not allowed to terminate the specified
+    // instrument.
+    // * @throws AccountException If failed to terminate.
     // */
-    public void deposit(int studentId, int instrumentId) throws RejectedException, AccountException {
-        String failureMsg = "Could not deposit to account: " + instrumentId;
+    public void terminate(int studentId, int instrumentId) throws RejectedException, RentException {
+        String failureMsg = "Could not terminate to instrument: " + instrumentId;
 
         if (instrumentId == 0) {
-            throw new AccountException(failureMsg);
+            throw new RentException(failureMsg);
         }
 
         try {
-            // Instrument rental = bankDb.findAccountByAcctNo5(instrumentId);//
-            bankDb.findTerminated(studentId, instrumentId);
-            bankDb.terminated(studentId, instrumentId);
+            schoolDb.findTerminated(studentId, instrumentId);
+            schoolDb.terminated(studentId, instrumentId);
 
-        } catch (BankDBException bdbe) {
-            throw new AccountException(failureMsg, bdbe);
+        } catch (MusicSchoolException bdbe) {
+            throw new RentException(failureMsg, bdbe);
         } catch (Exception e) {
-            commitOngoingTransaction(failureMsg);
+            commitOngoingRental(failureMsg);
             throw e;
         }
     }
 
-    private void commitOngoingTransaction(String failureMsg) throws AccountException {
+    private void commitOngoingRental(String failureMsg) throws RentException {
         try {
-            bankDb.commit();
-        } catch (BankDBException bdbe) {
-            throw new AccountException(failureMsg, bdbe);
+            schoolDb.commit();
+        } catch (MusicSchoolException bdbe) {
+            throw new RentException(failureMsg, bdbe);
         }
     }
 

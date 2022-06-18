@@ -115,7 +115,6 @@ public class BlockingInterpreter {
                         List<? extends InstrumentDTO> rentals = null;
                         if (cmdLine.getParameter(0).equals("")) {
                             rentals = ctrl.getAllRentals();
-
                             for (InstrumentDTO rental : rentals) {
                                 System.out.println("Instrument-ID: " + rental.getInstrumentId() + ", "
                                         + "Renting fee: " + rental.getRentingFee() + ", "
@@ -127,7 +126,7 @@ public class BlockingInterpreter {
                                         + "Status: " + rental.getRentalStatus());
                             }
                         } else {
-                            ctrl.createAccount(Integer.parseInt(cmdLine.getParameter(0)),
+                            ctrl.createNewRental(Integer.parseInt(cmdLine.getParameter(0)),
                                     Integer.parseInt(cmdLine.getParameter(1)));
                         }
                         break;
@@ -135,8 +134,9 @@ public class BlockingInterpreter {
                     case TERMINATE:
                         if (cmdLine.getParameter(0) == "")
                             System.out.println(
-                                    "OBS!!! You wrote in the wrong format. You must type as: EXAMPLE: <terminate student-id instrument-id>");
-                        ctrl.deposit(Integer.parseInt(cmdLine.getParameter(0)),
+                                    "OBS!!! You wrote in the wrong format. You must type as: " +
+                                            "EXAMPLE: <terminate student-id instrument-id>");
+                        ctrl.terminate(Integer.parseInt(cmdLine.getParameter(0)),
                                 Integer.parseInt(cmdLine.getParameter(1)));
                         break;
 
@@ -151,6 +151,10 @@ public class BlockingInterpreter {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     private String readNextLine() {
         System.out.print(PROMPT);
         return console.nextLine();

@@ -33,11 +33,11 @@ import java.util.List;
 import model.Instrument;
 
 /**
- * This data access object (DAO) encapsulates all database calls in the bank
+ * This data access object (DAO) encapsulates all database calls in the School
  * application. No code outside this class shall have any knowledge about the
  * database.
  */
-public class BankDAO {
+public class SchoolDAO {
     // instrument
     private static final String INSTRUMENT_TABLE_NAME = "instrument"; // instrument
     private static final String INSTRUMENT_ID_COLUMN_NAME = "instrument_id";
@@ -78,10 +78,9 @@ public class BankDAO {
     private static final String RENTAL_STATUS_COLUMN_NAME = "renting_status";
 
     // terminated_task
-    private static final String TERMINATED_TASK_TABLE_NAME = "terminated_task"; // terminated_task
+    private static final String TERMINATED_TASK_TABLE_NAME = "terminated_task";
 
     private Connection connection;
-    // private PreparedStatement createHolderStmt;
     private PreparedStatement findHolderPKStmt;
     private PreparedStatement findHolderPK2Stmt;
 
@@ -91,7 +90,6 @@ public class BankDAO {
     private PreparedStatement findAccountStmt;
 
     private PreparedStatement createAccountInfoStmt;
-    // private PreparedStatement findAccountByNameStmt;
     private PreparedStatement findAccountByAcctNoStmt;
     private PreparedStatement findAccountByAcctNo5Stmt;
     // Hitta status from terminatet task
@@ -115,20 +113,27 @@ public class BankDAO {
     private PreparedStatement findInstrumentTotermminatedStmt;
 
     /**
-     * Constructs a new DAO object connected to the bank database.
+     * Constructs a new SchoolDAO object connected to the School database.
      */
-    public BankDAO() throws BankDBException {
+    public SchoolDAO() throws MusicSchoolException {
         try {
-            connectToBankDB();
+            connectToSchoolDB();
             prepareStatements();
         } catch (ClassNotFoundException | SQLException exception) {
-            throw new BankDBException("Could not connect to datasource.", exception);
+            throw new MusicSchoolException("Could not connect to datasource.", exception);
         }
     }
 
-    // public int checker = 0;
-    public void createAccount(int studentId, int instrumentId) throws BankDBException {
-        String failureMsg = "Could not create the renatl of: ";
+    /**
+     * create New rental with @param studentId from student and @param instrumentId
+     * to the instrument.
+     * 
+     * @param studentId
+     * @param instrumentId
+     * @throws MusicSchoolException
+     */
+    public void createNewRental(int studentId, int instrumentId) throws MusicSchoolException {
+        String failureMsg = "Could not create the renatl of: " + studentId + "and instrument: " + instrumentId;
 
         try {
 
@@ -176,8 +181,13 @@ public class BankDAO {
         }
     }
 
-    public void checkerStudentId(int studentId) throws BankDBException {
-        String failureMsg = "You have reached the maximum allowed number of renatls";
+    /**
+     *
+     * @param studentId
+     * @throws MusicSchoolException
+     */
+    public void checkerStudentId(int studentId) throws MusicSchoolException {
+        String failureMsg = "You have reached the maximum allowed number of rentals";
         ResultSet result = null;
         int updatedRows = 1;
         int checkerTotal = 0;
@@ -198,10 +208,16 @@ public class BankDAO {
 
     }
 
-    public void checkerInstrumentId(int instrumentId) throws BankDBException {
+    /**
+     * Checker the instrument if that available or rented.
+     * 
+     * @param instrumentId
+     * @throws MusicSchoolException
+     */
+    public void checkerInstrumentId(int instrumentId) throws MusicSchoolException {
         String failureMsg = "This instrument rented";
         try {
-            String s = findAccountByAcctNo5(instrumentId).getStatus();
+            String s = findInstrumentByIdNo(instrumentId).getStatus();
             if (s.equalsIgnoreCase("rented")) {
                 handleException(failureMsg, null);
             }
@@ -212,103 +228,17 @@ public class BankDAO {
 
     }
 
-    /*********************************************************************************************
-     * public void checkerTerminated(int instrumentId, int studentId) throws
-     * BankDBException {
-     * String failureMsg = "You have reached the maximum allowed number of renatls";
-     * ResultSet result = null;
-     * String checker = null;
-     * try {
-     * //rented_instrument
-     * findAccountByAcctNo5Stmt.setInt(1, instrumentId);
-     * findAccountByAcctNo5Stmt.setInt(2, studentId);
-     * result = findAccountByAcctNo5Stmt.executeQuery();
-     * if(result == null){
-     * while(result.next())
-     * checker = result.getString(3);
-     * if (checker != null){
-     * if(checker.contains("terminated")){
-     * try2(studentId,instrumentId);
-     * }
-     * }
+    /**
+     * To find the right information to the instrumentId with studentId number.
+     * All this information that rented_instrument table have.
      * 
-     * }
-     * else {
-     * //rented Instrument
-     * 
-     * }
-     * connection.commit();
-     * }catch (SQLException sqle){
-     * handleException(failureMsg, sqle);
-     * }
-     * 
-     * }
-     * /
-     *********************************************************************************************/
-
-    /*********************************************************************************************
-     * public void try2(int studentId, int instrumentId) throws BankDBException {
-     * String failureMsg = "Could not search for specified rental.";
-     * ResultSet result2 = null;
-     * int updatedRows2 =1;
-     * int checker2 = 0;
-     * 
-     * try {
-     * findStudentStmt.setInt(1, studentId);
-     * result2 = findStudentStmt.executeQuery();
-     * while(result2.next())
-     * checker2 = result2.getInt(4);
-     * if(checker2 == 2 && updatedRows2 == 1){
-     * System.out.println("You have reached the maximum allowed number of renatls,
-     * you can return one of your erliear rentals to complete.");
-     * handleException(failureMsg, null);
-     * }
-     * 
-     * //rented instrument
-     * updateAccountStmt.setInt(1,studentId);
-     * updateAccountStmt.setInt(2,instrumentId);
-     * //updateAccountStmt.setString(3," Ongoing");
-     * 
-     * //Instrument
-     * changeStatus2Stmt.setInt(2, instrumentId);
-     * changeStatus2Stmt.setString(1, "rented");
-     * int updatedRows7 = changeStatus2Stmt.executeUpdate();
-     * if (updatedRows7 != 1) {
-     * handleException(failureMsg, null);
-     * }
-     * 
-     * else {
-     * 
-     * //student
-     * changeStatus3Stmt.setInt(1,checker2 + 1 );
-     * changeStatus3Stmt.setInt(2, studentId);
-     * int updatedRows3 = changeStatus3Stmt.executeUpdate();
-     * if (updatedRows3 != 1) {
-     * handleException(failureMsg, null);
-     * }
-     * 
-     * //rented instrument
-     * changeStatusrentedStmt.setInt(2, instrumentId);
-     * changeStatusrentedStmt.setString(1, "Ongoing");
-     * int updatedRows9 = changeStatusrentedStmt.executeUpdate();
-     * if (updatedRows9 != 1) {
-     * handleException(failureMsg, null);
-     * }
-     * }
-     * 
-     * 
-     * connection.commit();
-     * }catch (SQLException sqle){
-     * handleException(failureMsg, sqle);
-     * }
-     * }
-     * /*********************************************************************************************
-     * 
-     * /
-     *********************************************************************************************/
-
+     * @param studentId
+     * @param instrumentId
+     * @return
+     * @throws MusicSchoolException
+     */
     public Instrument findTerminated(int studentId, int instrumentId)
-            throws BankDBException {
+            throws MusicSchoolException {
         PreparedStatement stmtToExecute;
         stmtToExecute = findInstrumentTotermminatedStmt;
 
@@ -333,8 +263,15 @@ public class BankDAO {
         return null;
     }
 
-    public void terminated(int studentId, int instrumentId) throws BankDBException {
-        String failureMsg = "You have reached the maximum allowed number of renatls";
+    /**
+     * To terminated the specified instrument.
+     * 
+     * @param studentId
+     * @param instrumentId
+     * @throws MusicSchoolException
+     */
+    public void terminated(int studentId, int instrumentId) throws MusicSchoolException {
+        String failureMsg = "Could not terminated for specified rental.";
         try {
             // rent instrument
             changeRentStatusrentedStmt.setString(1, "terminated");
@@ -376,8 +313,14 @@ public class BankDAO {
 
     }
 
-    public Instrument findAccountByAcctNo5(int instrumentId)
-            throws BankDBException {
+    /**
+     *
+     * @param instrumentId
+     * @return
+     * @throws MusicSchoolException
+     */
+    public Instrument findInstrumentByIdNo(int instrumentId)
+            throws MusicSchoolException {
         PreparedStatement stmtToExecute;
         stmtToExecute = findInstrumentStatusStmt;
 
@@ -404,16 +347,16 @@ public class BankDAO {
     }
 
     /**
-     * Retrieves all existing accounts.
+     * Retrieves all existing instruments.
      *
-     * @return A list with all existing accounts. The list is empty if there are no
-     *         accounts.
-     * @throws BankDBException If failed to search for accounts.
-     *                         ALLA Instrument
+     * @return A list with all existing instruments. The list is empty if there are
+     *         no
+     *         instruments rented.
+     * @throws MusicSchoolException If failed to search for instruments.
+     *
      */
-
-    public List<Instrument> findAllInstruments() throws BankDBException {
-        String failureMsg = "Could not list instruments.";
+    public List<Instrument> findAllInstruments() throws MusicSchoolException {
+        String failureMsg = "Could not find the instruments list.";
         List<Instrument> instruments = new ArrayList<>();
         try (ResultSet result = findAllInstrumentsStmt.executeQuery()) {
             while (result.next()) {
@@ -433,13 +376,13 @@ public class BankDAO {
 
     // ensemble_statistics
     /**
-     * Retrieves all existing accounts.
+     * Retrieves all existing lesson.
      *
      * @return A list with all existing accounts. The list is empty if there are no
      *         accounts.
-     * @throws BankDBException If failed to search for accounts.
+     * @throws MusicSchoolException If failed to search for ensembles lesson.
      */
-    public List<Instrument> findAllEnsembles() throws BankDBException {
+    public List<Instrument> findAllEnsembles() throws MusicSchoolException {
         String failureMsg = "Could not list ensembles.";
         List<Instrument> ensembles = new ArrayList<>();
         try (ResultSet result = findAllEnsemblesStmt.executeQuery()) {
@@ -459,7 +402,13 @@ public class BankDAO {
         return ensembles;
     }
 
-    public List<Instrument> findAllRentals() throws BankDBException {
+    /**
+     * To Find all rented instruments
+     * 
+     * @return
+     * @throws MusicSchoolException
+     */
+    public List<Instrument> findAllRentals() throws MusicSchoolException {
         String failureMsg = "Could not list rentals.";
         List<Instrument> rentals = new ArrayList<>();
         try (ResultSet result = findAllRentalsStmt.executeQuery()) {
@@ -481,11 +430,11 @@ public class BankDAO {
     }
 
     /**
-     * Commits the current transaction.
+     * Commits the current rentals.
      * 
-     * @throws BankDBException If unable to commit the current transaction.
+     * @throws MusicSchoolException If unable to commit the current rentals.
      */
-    public void commit() throws BankDBException {
+    public void commit() throws MusicSchoolException {
         try {
             connection.commit();
         } catch (SQLException e) {
@@ -493,13 +442,24 @@ public class BankDAO {
         }
     }
 
-    private void connectToBankDB() throws ClassNotFoundException, SQLException {
+    /**
+     * To connect to the Music school database.
+     * 
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    private void connectToSchoolDB() throws ClassNotFoundException, SQLException {
         connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/soundgood_music_school",
                 "postgres", "mortza2050");
 
         connection.setAutoCommit(false);
     }
 
+    /**
+     * Hear all the Queries that we used in the application.
+     * 
+     * @throws SQLException
+     */
     private void prepareStatements() throws SQLException {
 
         createAccountStmt = connection.prepareStatement("INSERT INTO rented_instruments VALUES \r\n"
@@ -598,27 +558,33 @@ public class BankDAO {
                 + " SET " + STATUS_COLUMN_NAME + " = ? WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ? ");
     }
 
-    private void handleException(String failureMsg, Exception cause) throws BankDBException {
+    /**
+     *
+     * @param failureMsg
+     * @param cause
+     * @throws MusicSchoolException
+     */
+    private void handleException(String failureMsg, Exception cause) throws MusicSchoolException {
         String completeFailureMsg = failureMsg;
         try {
             connection.rollback();
         } catch (SQLException rollbackExc) {
             completeFailureMsg = completeFailureMsg +
-                    ". Also failed to rollback transaction because of: " + rollbackExc.getMessage();
+                    ". Also failed to rollback rentals because of: " + rollbackExc.getMessage();
         }
 
         if (cause != null) {
-            throw new BankDBException(failureMsg, cause);
+            throw new MusicSchoolException(failureMsg, cause);
         } else {
-            throw new BankDBException(failureMsg);
+            throw new MusicSchoolException(failureMsg);
         }
     }
 
-    private void closeResultSet(String failureMsg, ResultSet result) throws BankDBException {
+    private void closeResultSet(String failureMsg, ResultSet result) throws MusicSchoolException {
         try {
             result.close();
         } catch (Exception e) {
-            throw new BankDBException(failureMsg + " Could not close result set.", e);
+            throw new MusicSchoolException(failureMsg + " Could not close result set.", e);
         }
 
     }

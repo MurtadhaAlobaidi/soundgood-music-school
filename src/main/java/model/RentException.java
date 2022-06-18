@@ -20,25 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package startup;
-
-import controller.Controller;
-import integration.MusicSchoolException;
-import view.BlockingInterpreter;
+package model;
 
 /**
- * Starts the music school client.
+ * Thrown when create, read or delete of an account fails.
  */
-public class Main {
+public class RentException extends Exception {
+
     /**
-     * @param args There are no command line arguments.
+     * Create a new instance thrown because of the specified reason.
+     *
+     * @param reason Why the exception was thrown.
      */
-    public static void main(String[] args) {
-        try {
-            new BlockingInterpreter(new Controller()).handleCmds();
-        } catch (MusicSchoolException bdbe) {
-            System.out.println("Could not connect to School db.");
-            bdbe.printStackTrace();
-        }
+    public RentException(String reason) {
+        super(reason);
+    }
+
+    /**
+     * Create a new instance thrown because of the specified reason and exception.
+     *
+     * @param reason    Why the exception was thrown.
+     * @param rootCause The exception that caused this exception to be thrown.
+     */
+    public RentException(String reason, Throwable rootCause) {
+        super(reason, rootCause);
     }
 }
