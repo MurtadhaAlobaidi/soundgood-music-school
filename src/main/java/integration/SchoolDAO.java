@@ -112,6 +112,7 @@ public class SchoolDAO {
     private PreparedStatement findInstrumentStatusStmt;
     private PreparedStatement findInstrumentTotermminatedStmt;
     private PreparedStatement findRentedInstrumentStatusStmt;
+    private PreparedStatement findRentedInstrumentStatusSizeStmt;
     /**
      * Constructs a new SchoolDAO object connected to the School database.
      */
@@ -144,10 +145,47 @@ public class SchoolDAO {
             checkerStudentId(studentId);
             checkerInstrumentId(instrumentId);
 
-            /**
-             * rented_instruments tables != Null
-             * This query select every thing from rented_instruments
-             */
+
+            if(findRentedInstrument().size() == 0){
+                /**
+                 * rented_instrument tables
+                 */
+                createAccountStmt.setInt(1, studentId);
+                createAccountStmt.setInt(2, instrumentId);
+                createAccountStmt.setString(3, "Ongoing");
+                int updatedRows4 = createAccountStmt.executeUpdate();
+                if (updatedRows4 != 1) {
+                    handleException(failureMsg, null);
+                }
+
+                // instrument tables
+                changeStatus2Stmt.setInt(2, instrumentId);
+                changeStatus2Stmt.setString(1, "rented");
+                int updatedRows6 = changeStatus2Stmt.executeUpdate();
+                if (updatedRows6 != 1) {
+                    handleException(failureMsg, null);
+                }
+                int checkerTotal = 0;
+                ResultSet result4 = null;
+                findStudentStmt.setInt(1, studentId);
+                result4 = findStudentStmt.executeQuery();
+                while (result4.next())
+                    checkerTotal = result4.getInt(4);
+
+                // add to student
+                changeStatus3Stmt.setInt(1, checkerTotal + 1);
+                changeStatus3Stmt.setInt(2, studentId);
+                int updatedRows5 = changeStatus3Stmt.executeUpdate();
+                if (updatedRows5 != 1) {
+                    handleException(failureMsg, null);
+                }
+            }
+
+            else{
+                /**
+                 * rented_instruments tables != Null
+                 * This query select every thing from rented_instruments
+                 */
                 /**
                  * rented_instruments (3)-renting_status == "terminated"
                  */
@@ -202,41 +240,6 @@ public class SchoolDAO {
                     }
                 }
 
-
-
-            else{
-                /**
-                 * rented_instrument tables
-                 */
-                createAccountStmt.setInt(1, studentId);
-                createAccountStmt.setInt(2, instrumentId);
-                createAccountStmt.setString(3, "Ongoing");
-                int updatedRows4 = createAccountStmt.executeUpdate();
-                if (updatedRows4 != 1) {
-                    handleException(failureMsg, null);
-                }
-
-                // instrument tables
-                changeStatus2Stmt.setInt(2, instrumentId);
-                changeStatus2Stmt.setString(1, "rented");
-                int updatedRows6 = changeStatus2Stmt.executeUpdate();
-                if (updatedRows6 != 1) {
-                    handleException(failureMsg, null);
-                }
-                int checkerTotal = 0;
-                ResultSet result4 = null;
-                findStudentStmt.setInt(1, studentId);
-                result4 = findStudentStmt.executeQuery();
-                while (result4.next())
-                    checkerTotal = result4.getInt(4);
-
-                // add to student
-                changeStatus3Stmt.setInt(1, checkerTotal + 1);
-                changeStatus3Stmt.setInt(2, studentId);
-                int updatedRows5 = changeStatus3Stmt.executeUpdate();
-                if (updatedRows5 != 1) {
-                    handleException(failureMsg, null);
-                }
 
             }
 
@@ -304,37 +307,33 @@ public class SchoolDAO {
 
     }
 
-    /**
-     * To find the right information to the instrumentId.
-     * All this information that rented_instrument table have.
-     *
-     * @param instrumentId
-     * @return
-     * @throws MusicSchoolException
-     */
-    public Instrument findRentedInstrument(int instrumentId)
-            throws MusicSchoolException {
-        PreparedStatement stmtToExecute;
-        stmtToExecute = findRentedInstrumentStatusStmt;
 
-        String failureMsg = "Could not search for specified rental.";
-        ResultSet result = null;
-        try {
-            stmtToExecute.setInt(1, instrumentId);
-            result = stmtToExecute.executeQuery();
-            if (result.next()) {
-                return new Instrument(
+    /**
+     * Retrieves all existing instruments.
+     *
+     * @return A list with all existing instruments. The list is empty if there are
+     *         no
+     *         instruments rented.
+     * @throws MusicSchoolException If failed to search for instruments.
+     *
+     */
+    public List<Instrument> findRentedInstrument() throws MusicSchoolException {
+        String failureMsg = "Could not find the instruments list.";
+        List<Instrument> instruments = new ArrayList<>();
+        try (ResultSet result = findRentedInstrumentStatusSizeStmt.executeQuery()) {
+            while (result.next()) {
+                instruments.add(new Instrument(
                         result.getInt(STUDENT_ID_COLUMN_NAME),
                         result.getString(INSTRUMENT_ID_COLUMN_NAME),
                         result.getString(RENTING_STATUS_COLUMN_NAME),
                         result.getString(RENT_DATE_COLUMN_NAME),
-                        result.getString(RETURN_DATE_COLUMN_NAME));
+                        result.getString(RETURN_DATE_COLUMN_NAME)));
             }
             connection.commit();
         } catch (SQLException sqle) {
             handleException(failureMsg, sqle);
         }
-        return null;
+        return instruments;
     }
 
     /**
@@ -642,6 +641,10 @@ public class SchoolDAO {
         // rented instrument (to find if terminated)
         findRentedInstrumentStatusStmt = connection.prepareStatement("SELECT * FROM " + RENTED_INSTRUMENTS_TABLE_NAME +
                 " WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ?" );
+
+        // rented instrument (size)
+        findRentedInstrumentStatusSizeStmt = connection.prepareStatement("SELECT * FROM " + RENTED_INSTRUMENTS_TABLE_NAME
+                );
 
         changeRentStatusrentedStmt = connection.prepareStatement("UPDATE " + RENTED_INSTRUMENTS_TABLE_NAME
                 + " SET " + RENTING_STATUS_COLUMN_NAME + " = ? "
