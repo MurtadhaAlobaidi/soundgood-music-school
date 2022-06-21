@@ -508,27 +508,12 @@ public class SchoolDAO {
                 + "," + " ? "
                 + "," + " ? "
                 + ", CURRENT_DATE , CURRENT_DATE + INTERVAL '1 year'  )");
-
-   /*     updateAccountStmt = connection.prepareStatement("UPDATE rented_instruments\r\n"
-                + "SET return_date = CURRENT_DATE \r\n"
-                + "WHERE instrument_id = ? AND student_id= ? "); // instrument_id = 'terminated' */
+        
 
         changeStatusrentedStmt = connection.prepareStatement("UPDATE " + RENTED_INSTRUMENTS_TABLE_NAME
                 + " SET " + RENTING_STATUS_COLUMN_NAME + " = ? WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ? ");
 
-/*        // Rented Instrument
-        findAccountStmt = connection.prepareStatement("SELECT * FROM " + RENTED_INSTRUMENTS_TABLE_NAME +
-                " WHERE " + STUDENT_ID_COLUMN_NAME + " = ?"
-                + " AND " + INSTRUMENT_ID_COLUMN_NAME + "= ?");
 
-        findHolderPKStmt = connection.prepareStatement(
-                "SELECT student." + TOTAL_RENTED_INSTRUMENTS_CURRENTLY_COLUMN_NAME + " FROM " + STUDENT_TABLE_NAME +
-                        " WHERE " + STUDENT_ID_COLUMN_NAME + " = ?");
-
-        // Instrument
-        findHolderPK2Stmt = connection.prepareStatement("SELECT instrument."
-                + TOTAL_RENTED_INSTRUMENTS_CURRENTLY_COLUMN_NAME + " FROM " + INSTRUMENT_TABLE_NAME +
-                " WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ?");*/
 
         // Instrument
         findInstrumentStatusStmt = connection.prepareStatement("SELECT * FROM " + INSTRUMENT_TABLE_NAME +
@@ -537,9 +522,6 @@ public class SchoolDAO {
         findStudentStmt = connection.prepareStatement("SELECT * FROM " + STUDENT_TABLE_NAME +
                 " WHERE " + STUDENT_ID_COLUMN_NAME + " = ?");
 
-/*        findStudent1Stmt = connection.prepareStatement("UPDATE  " + STUDENT_TABLE_NAME
-                + " SET " + STUDENT_ID_COLUMN_NAME +
-                " WHERE " + TOTAL_RENTED_INSTRUMENTS_CURRENTLY_COLUMN_NAME + " = ?"); */
 
         findAllRentalsStmt = connection.prepareStatement("SELECT "
                 + RENT_DATE_COLUMN_NAME
@@ -558,39 +540,20 @@ public class SchoolDAO {
 
         findAllEnsemblesStmt = connection.prepareStatement("SELECT * FROM " + ENSEMBLE_STATISTICS_TABLE_NAME);
 
-/*        // terminate (måste instrument)
-        findAccountByAcctNoStmt = connection.prepareStatement("SELECT * FROM " + TERMINATED_TASK_TABLE_NAME +
-                " WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ?");
-
-        findAccountByAcctNo5Stmt = connection.prepareStatement("SELECT * FROM " + RENTED_INSTRUMENTS_TABLE_NAME +
-                " WHERE " + STUDENT_ID_COLUMN_NAME + " = ?"
-                + " AND " + INSTRUMENT_ID_COLUMN_NAME + " = ?"); */
 
         // rented instrument
         findInstrumentTotermminatedStmt = connection.prepareStatement("SELECT * FROM " + RENTED_INSTRUMENTS_TABLE_NAME +
                 " WHERE " + STUDENT_ID_COLUMN_NAME + " = ?"
                 + " AND " + INSTRUMENT_ID_COLUMN_NAME + " = ?");
 
-/*        // rented instrument (to find if terminated)
-        findRentedInstrumentStatusStmt = connection.prepareStatement("SELECT * FROM " + RENTED_INSTRUMENTS_TABLE_NAME +
-                " WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ?");
 
-        // rented instrument (size)
-        findRentedInstrumentStatusSizeStmt = connection
-                .prepareStatement("SELECT * FROM " + RENTED_INSTRUMENTS_TABLE_NAME); */
 
         changeRentStatusrentedStmt = connection.prepareStatement("UPDATE " + RENTED_INSTRUMENTS_TABLE_NAME
                 + " SET " + RENTING_STATUS_COLUMN_NAME + " = ? "
                 + " WHERE " + STUDENT_ID_COLUMN_NAME + " = ?"
                 + " AND " + INSTRUMENT_ID_COLUMN_NAME + " = ?");
 
-/*        // Terminate with rentingstatus "Ongoing"
-        findAccountByAcctNo1Stmt = connection.prepareStatement("UPDATE " + TERMINATED_TASK_TABLE_NAME
-                + " WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ?"
-                + " AND " + RENTING_STATUS_COLUMN_NAME + " = 'Ongoing'");
 
-        changeStatusStmt = connection.prepareStatement("UPDATE " + RENTED_INSTRUMENTS_TABLE_NAME
-                + " SET " + RENTING_STATUS_COLUMN_NAME + " = ? WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ? "); */
 
         changeStatus2Stmt = connection.prepareStatement("UPDATE " + INSTRUMENT_TABLE_NAME
                 + " SET " + STATUS_COLUMN_NAME + " = ? WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ? ");
@@ -599,12 +562,6 @@ public class SchoolDAO {
                 + " SET " + TOTAL_RENTED_INSTRUMENTS_CURRENTLY_COLUMN_NAME + " = ? WHERE " + STUDENT_ID_COLUMN_NAME
                 + " = ? ");
 
-/*        changeStmt = connection.prepareStatement("UPDATE " + STUDENT_TABLE_NAME
-                + " SET " + TOTAL_RENTED_INSTRUMENTS_CURRENTLY_COLUMN_NAME + " = ? WHERE " + STUDENT_ID_COLUMN_NAME
-                + " = ? ");
-
-        change2Stmt = connection.prepareStatement("UPDATE " + INSTRUMENT_TABLE_NAME
-                + " SET " + STATUS_COLUMN_NAME + " = ? WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ? "); */
     }
 
     /**
