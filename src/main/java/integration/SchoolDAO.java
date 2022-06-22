@@ -81,38 +81,24 @@ public class SchoolDAO {
     private static final String TERMINATED_TASK_TABLE_NAME = "terminated_task";
 
     private Connection connection;
-    //private PreparedStatement findHolderPKStmt;
-    //private PreparedStatement findHolderPK2Stmt;
 
     private PreparedStatement createAccountStmt;
-    //private PreparedStatement updateAccountStmt;
     private PreparedStatement changeStatusrentedStmt;
-    //private PreparedStatement findAccountStmt;
 
     private PreparedStatement createAccountInfoStmt;
-    //private PreparedStatement findAccountByAcctNoStmt;
-    //private PreparedStatement findAccountByAcctNo5Stmt;
-    // Hitta status from terminatet task
-    //private PreparedStatement findAccountByAcctNo1Stmt;
 
     private PreparedStatement changeRentStatusrentedStmt;
     private PreparedStatement findAllRentalsStmt;
     private PreparedStatement findAllInstrumentsStmt;
     private PreparedStatement findAllEnsemblesStmt;
     private PreparedStatement changeStatus2Stmt;
-    //private PreparedStatement changeStatusStmt;
     private PreparedStatement changeStatus3Stmt;
-   //private PreparedStatement changeStmt;
-    //private PreparedStatement change2Stmt;
 
     // Student
     private PreparedStatement findStudentStmt;
-    //private PreparedStatement findStudent1Stmt;
-    // Instrument
     private PreparedStatement findInstrumentStatusStmt;
     private PreparedStatement findInstrumentTotermminatedStmt;
-    //private PreparedStatement findRentedInstrumentStatusStmt;
-    //private PreparedStatement findRentedInstrumentStatusSizeStmt;
+   
 
     /**
      * Constructs a new SchoolDAO object connected to the School database.
@@ -240,35 +226,6 @@ public class SchoolDAO {
 
     }
 
-
-    /**
-     * Retrieves all existing instruments.
-     *
-     * @return A list with all existing instruments. The list is empty if there are
-     *         no
-     *         instruments rented.
-     * @throws MusicSchoolException If failed to search for instruments.
-     *
-     */
- /*   public List<Instrument> findRentedInstrument() throws MusicSchoolException {
-        String failureMsg = "Could not find the instruments list.";
-        List<Instrument> instruments = new ArrayList<>();
-        try (ResultSet result = findRentedInstrumentStatusSizeStmt.executeQuery()) {
-            while (result.next()) {
-                instruments.add(new Instrument(
-                        result.getInt(STUDENT_ID_COLUMN_NAME),
-                        result.getString(INSTRUMENT_ID_COLUMN_NAME),
-                        result.getString(RENTING_STATUS_COLUMN_NAME),
-                        result.getString(RENT_DATE_COLUMN_NAME),
-                        result.getString(RETURN_DATE_COLUMN_NAME)));
-            }
-            connection.commit();
-        } catch (SQLException sqle) {
-            handleException(failureMsg, sqle);
-        }
-        return instruments;
-    }*/
-
     /**
      * To find the right information to the instrumentId with studentId number.
      * All this information that rented_instrument table have.
@@ -314,7 +271,7 @@ public class SchoolDAO {
     public void terminated(int studentId, int instrumentId) throws MusicSchoolException {
         String failureMsg = "Could not terminated for specified rental.";
         try {
-            // rent instrument
+            // update rent instrument
             changeRentStatusrentedStmt.setString(1, "terminated");
             changeRentStatusrentedStmt.setInt(2, studentId);
             changeRentStatusrentedStmt.setInt(3, instrumentId);
@@ -508,7 +465,7 @@ public class SchoolDAO {
                 + "," + " ? "
                 + "," + " ? "
                 + ", CURRENT_DATE , CURRENT_DATE + INTERVAL '1 year'  )");
-        
+
 
         changeStatusrentedStmt = connection.prepareStatement("UPDATE " + RENTED_INSTRUMENTS_TABLE_NAME
                 + " SET " + RENTING_STATUS_COLUMN_NAME + " = ? WHERE " + INSTRUMENT_ID_COLUMN_NAME + " = ? ");
@@ -522,7 +479,7 @@ public class SchoolDAO {
         findStudentStmt = connection.prepareStatement("SELECT * FROM " + STUDENT_TABLE_NAME +
                 " WHERE " + STUDENT_ID_COLUMN_NAME + " = ?");
 
-
+        //rented_instrument_info VIEWs
         findAllRentalsStmt = connection.prepareStatement("SELECT "
                 + RENT_DATE_COLUMN_NAME
                 + ", " + RENTING_FEE_COLUMN_NAME
