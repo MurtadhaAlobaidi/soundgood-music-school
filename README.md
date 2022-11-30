@@ -33,7 +33,7 @@ This tools was helpeing to built this project.You can download them from here:
 # How to Execute
 1. Clone this git repository.  `git clone https://github.com/mhaao/Soundgood-Music-School.git`
 1. Change to the newly created directory cd soundgood-music-school.  `cd "soundgood-music-school"`
-    1. Change the url to match your database. You can find that in `<BankDAO>`
+    1. Change the url to match your database. You can find that in `<SchoolDAO>`
 1. Create a database that can be reached with postgres `database.sql` and `insert.sql`. That all tables and data you need to a database called soundgood-music-school.
 1. Build the project with the command `mvn install`
 1. Run the program with the command `mvn exec:java`
