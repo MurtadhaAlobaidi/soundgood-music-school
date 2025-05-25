@@ -5,7 +5,29 @@ This project "Soundgood Music School" on KTH-Data Storage Paradigms(IV1351).
 The purpose is to facilitate information handling and business transactions for the Soundgood music school company, 
 by developing a database which handles all the school's data and also an application that can handle some of the transactions. 
 
- 
+# Architecture
+This project follows the Model-View-Controller (MVC) architectural pattern:
+
+## Model
+- Located in `src/main/java/model/`
+- Contains the business logic and data structures
+- Includes classes like `Instrument` and `InstrumentDTO` that represent the core domain objects
+- Handles business rules and data validation through exceptions like `RentException`
+
+## View
+- Located in `src/main/java/view/`
+- Manages the user interface and command-line interaction
+- `BlockingInterpreter` handles user input and command interpretation
+- Presents data to users through formatted console output
+- Implements commands through the `Command` interface
+
+## Controller
+- Located in `src/main/java/controller/`
+- Acts as an intermediary between Model and View
+- Processes user commands from the View
+- Coordinates with the Model layer and database operations
+- Uses `SchoolDAO` for database interactions
+
 # Built With languages
 * [SQL](https://pages.github.com/)
 * [JAVA](https://pages.github.com/)
